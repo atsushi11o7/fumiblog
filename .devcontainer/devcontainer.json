@@ -1,0 +1,32 @@
+{
+  "name": "FumiBlog Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
+  // ポート転送設定
+  "forwardPorts": [3000, 6006, 9229],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js App",
+      "onAutoForward": "notify"
+    },
+    "6006": {
+      "label": "Storybook",
+      "onAutoForward": "ignore"
+    },
+    "9229": {
+      "label": "Node Debugger",
+      "onAutoForward": "ignore"
+    }
+  },
+
+  // Next.jsプロジェクト作成後に有効化
+  // "postCreateCommand": "npm install",
+
+  "remoteUser": "node",
+  "updateRemoteUserUID": true
+}
