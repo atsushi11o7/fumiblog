@@ -8,6 +8,7 @@ import { IconButton } from '@/components/atoms/IconButton';
 import { AnimatedMenuIcon } from '@/components/atoms/AnimatedMenuIcon';
 import { MobileMenu } from '@/components/molecules/MobileMenu';
 import type { NavigationItem } from '@/components/molecules/Navigation';
+import { LAYOUT } from '@/constants/layout';
 
 export interface HeaderProps {
   /**
@@ -33,7 +34,12 @@ export function Header({
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ],
-  mobileNavigationItems,
+  mobileNavigationItems = [
+    { href: '/', label: 'Home' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ],
   className = '',
 }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -49,11 +55,11 @@ export function Header({
   return (
     <header className={classes}>
       <div
-        className="w-full max-w-[1140px] mx-auto flex justify-between items-center relative z-[350]"
-        style={{ paddingLeft: '24px', paddingRight: '24px', paddingTop: '12px', paddingBottom: '12px' }}
+        className="flex items-center relative z-[350]"
+        style={{ maxWidth: LAYOUT.MAX_WIDTH, margin: '0 auto', padding: `${LAYOUT.HEADER_PADDING_Y} ${LAYOUT.PADDING_X}`, width: '100%' }}
       >
         <Logo />
-        <div className="flex items-center" style={{ gap: '24px' }}>
+        <div className="flex items-center" style={{ gap: '24px', marginLeft: 'auto' }}>
           {/* Desktop Navigation - Hidden on mobile */}
           <div className="hidden md:flex">
             <Navigation items={navigationItems} />
@@ -81,7 +87,7 @@ export function Header({
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={handleMenuClose}
-        navigationItems={mobileNavigationItems || navigationItems}
+        navigationItems={mobileNavigationItems}
       />
     </header>
   );
