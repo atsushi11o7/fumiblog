@@ -17,17 +17,6 @@ export const Default: Story = {
   args: {},
 };
 
-export const DarkTheme: Story = {
-  args: {},
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
 export const InHeader: Story = {
   args: {},
   render: () => (

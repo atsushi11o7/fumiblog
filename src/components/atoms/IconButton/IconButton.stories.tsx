@@ -77,6 +77,7 @@ export const Disabled: Story = {
 };
 
 export const AllSizes: Story = {
+  args: { children: <Icon icon={Moon} />, 'aria-label': 'Theme' },
   render: () => (
     <div className="flex gap-4 items-center">
       <IconButton size="small" aria-label="Search">
@@ -93,6 +94,7 @@ export const AllSizes: Story = {
 };
 
 export const AllVariants: Story = {
+  args: { children: <Icon icon={Moon} />, 'aria-label': 'Theme' },
   render: () => (
     <div className="flex gap-4 items-center">
       <IconButton aria-label="Home">
@@ -111,42 +113,8 @@ export const AllVariants: Story = {
   ),
 };
 
-export const DarkTheme: Story = {
-  args: {
-    children: <Icon icon={Sun} />,
-    'aria-label': 'Light mode',
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-export const DarkThemeVariants: Story = {
-  render: () => (
-    <div data-theme="dark" className="p-8 bg-background">
-      <div className="flex gap-4 items-center">
-        <IconButton aria-label="Light mode">
-          <Icon icon={Sun} />
-        </IconButton>
-        <IconButton variant="ghost" aria-label="Menu">
-          <Icon icon={Menu} />
-        </IconButton>
-        <IconButton size="small" aria-label="Search">
-          <Icon icon={Search} />
-        </IconButton>
-        <IconButton size="large" aria-label="Settings">
-          <Icon icon={Settings} />
-        </IconButton>
-      </div>
-    </div>
-  ),
-};
-
 export const ThemeToggleExample: Story = {
+  args: { children: <Icon icon={Moon} />, 'aria-label': 'Theme' },
   render: () => {
     const [isDark, setIsDark] = React.useState(false);
     return (

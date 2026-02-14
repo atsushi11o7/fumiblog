@@ -68,15 +68,3 @@ export const LightTheme: Story = {
     ],
   },
 };
-
-export const DarkTheme: Story = {
-  args: {
-    isOpen: true,
-    onClose: () => console.log('Menu closed'),
-    navigationItems: [
-      { href: '/blog', label: 'Blog', active: true },
-      { href: '/about', label: 'About' },
-      { href: '/contact', label: 'Contact' },
-    ],
-  },
-};

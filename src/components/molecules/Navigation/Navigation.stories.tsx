@@ -47,23 +47,6 @@ export const ManyItems: Story = {
   },
 };
 
-export const DarkTheme: Story = {
-  args: {
-    items: [
-      { href: '/blog', label: 'Blog', active: true },
-      { href: '/about', label: 'About' },
-      { href: '/contact', label: 'Contact' },
-    ],
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
 export const InHeader: Story = {
   render: () => (
     <div className="w-full bg-bg-secondary border-b border-border p-3">

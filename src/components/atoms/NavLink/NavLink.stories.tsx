@@ -32,19 +32,3 @@ export const Active: Story = {
     active: true,
   },
 };
-
-export const DarkTheme: Story = {
-  args: {
-    href: '#',
-    children: 'Blog',
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background">
-        <nav className="flex gap-6">
-          <Story />
-        </nav>
-      </div>
-    ),
-  ],
-};

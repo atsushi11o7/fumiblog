@@ -61,19 +61,6 @@ export const WithImage: Story = {
   },
 };
 
-export const DarkTheme: Story = {
-  args: {
-    alt: 'Dark Theme Icon',
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
 export const AllSizes: Story = {
   render: () => (
     <div className="flex gap-4 items-center">
@@ -92,18 +79,6 @@ export const DifferentIcons: Story = {
       <ProfileIcon icon={Settings} alt="Settings" />
       <ProfileIcon icon={Star} alt="Star" />
       <ProfileIcon icon={Heart} alt="Heart" />
-    </div>
-  ),
-};
-
-export const DarkThemeVariants: Story = {
-  render: () => (
-    <div data-theme="dark" className="p-8 bg-background">
-      <div className="flex gap-4 items-center">
-        <ProfileIcon size="small" icon={User} alt="Small" />
-        <ProfileIcon size="medium" icon={UserCircle} alt="Medium" />
-        <ProfileIcon size="large" icon={Settings} alt="Large" />
-      </div>
     </div>
   ),
 };

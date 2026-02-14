@@ -6,6 +6,11 @@ import type { MicroCMSImage, MicroCMSListContent } from 'microcms-js-sdk';
 export type ArticleSource = 'microcms' | 'qiita' | 'zenn' | 'note';
 
 /**
+ * 記事一覧の表示モード
+ */
+export type ViewMode = 'grid' | 'list';
+
+/**
  * 記事の共通インターフェース
  */
 export interface Article {

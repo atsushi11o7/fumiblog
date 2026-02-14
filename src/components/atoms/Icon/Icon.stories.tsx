@@ -91,19 +91,6 @@ export const CommonIcons: Story = {
   ),
 };
 
-export const DarkTheme: Story = {
-  args: {
-    icon: Search,
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark" className="p-8 bg-background text-foreground">
-        <Story />
-      </div>
-    ),
-  ],
-};
-
 export const AllSizes: Story = {
   args: {
     icon: Search,
