@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Header } from "@/components/organisms/Header";
 import { Footer } from "@/components/organisms/Footer";
-import { LAYOUT } from "@/constants/layout";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,7 +33,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="flex-1" style={{ maxWidth: LAYOUT.MAX_WIDTH, margin: '0 auto', padding: `${LAYOUT.PADDING_Y} ${LAYOUT.PADDING_X}`, width: '100%' }}>
+            <main className="flex-1 max-w-[1024px] mx-auto py-12 px-6 w-full">
               {children}
             </main>
             <Footer />

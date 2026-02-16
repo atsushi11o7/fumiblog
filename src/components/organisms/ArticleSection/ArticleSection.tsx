@@ -1,5 +1,5 @@
 import { ArticleCard } from '@/components/molecules/ArticleCard';
-import type { Article } from '@/types/article';
+import type { Article, ViewMode } from '@/types/article';
 
 export interface ArticleSectionProps {
   /**
@@ -11,7 +11,11 @@ export interface ArticleSectionProps {
    */
   articles: Article[];
   /**
-   * 表示列数（Grid）
+   * 表示モード
+   */
+  viewMode?: ViewMode;
+  /**
+   * 表示列数（Grid時のみ有効）
    */
   columns?: 2 | 3;
   /**
@@ -27,30 +31,36 @@ export interface ArticleSectionProps {
 export function ArticleSection({
   title,
   articles,
+  viewMode = 'grid',
   columns = 3,
   viewMoreHref,
   className = '',
 }: ArticleSectionProps) {
   const gridCols = columns === 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2';
+  const containerClass = viewMode === 'list'
+    ? 'flex flex-col gap-5'
+    : `grid ${gridCols} gap-5`;
 
   return (
     <section className={`${className}`.trim()}>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-foreground">{title}</h2>
-        {viewMoreHref && (
+      {title && (
+        <h2 className="text-xl font-bold text-foreground mb-6">{title}</h2>
+      )}
+      <div className={containerClass}>
+        {articles.map((article) => (
+          <ArticleCard key={article.id} article={article} viewMode={viewMode} />
+        ))}
+      </div>
+      {viewMoreHref && (
+        <div className="mt-6 text-center">
           <a
             href={viewMoreHref}
             className="text-sm text-secondary hover:text-foreground tt no-underline"
           >
             もっと見る →
           </a>
-        )}
-      </div>
-      <div className={`grid ${gridCols} gap-5`}>
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} viewMode="grid" />
-        ))}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

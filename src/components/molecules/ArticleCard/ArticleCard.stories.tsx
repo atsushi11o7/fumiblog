@@ -20,9 +20,13 @@ const mockMicroCMSArticle: Article = {
   title: 'Next.js 15のApp Router完全ガイド',
   description: 'Next.js 15の新機能であるApp Routerについて詳しく解説します。',
   publishedAt: '2025-01-15T00:00:00Z',
-  category: ['Next.js', 'React'],
+  category: { name: 'Next.js', slug: 'nextjs' },
   source: 'microcms',
-  tags: ['React', 'SSR', 'TypeScript'],
+  tags: [
+    { name: 'React', slug: 'react' },
+    { name: 'SSR', slug: 'ssr' },
+    { name: 'TypeScript', slug: 'typescript' },
+  ],
   href: '/blog/nextjs-15-app-router',
   thumbnail: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=250&fit=crop',
 };
@@ -32,7 +36,7 @@ const mockQiitaArticle: Article = {
   title: 'Qiitaで学ぶReact Hooks完全ガイド',
   description: 'React Hooksの基本から応用まで詳しく解説します。',
   publishedAt: '2025-01-12T00:00:00Z',
-  category: ['React', 'JavaScript'],
+  category: { name: 'Qiita', slug: 'qiita' },
   source: 'qiita',
   href: 'https://qiita.com/example/react-hooks',
 };
@@ -42,7 +46,7 @@ const mockZennArticle: Article = {
   title: 'Zennで学ぶモダンCSS設計',
   description: 'モダンCSSの機能を活用した実践的な設計方法を紹介します。',
   publishedAt: '2025-01-11T00:00:00Z',
-  category: ['CSS', 'Design'],
+  category: { name: 'Zenn', slug: 'zenn' },
   source: 'zenn',
   href: 'https://zenn.dev/example/modern-css',
 };
@@ -52,7 +56,7 @@ const mockNoteArticle: Article = {
   title: 'noteで綴る技術ブログの書き方',
   description: '技術記事を書く際のポイントについて解説します。',
   publishedAt: '2025-01-09T00:00:00Z',
-  category: ['Writing', 'Tips'],
+  category: { name: 'Note', slug: 'note' },
   source: 'note',
   href: 'https://note.com/example/tech-writing',
 };
@@ -168,7 +172,14 @@ export const ManyTagsGrid: Story = {
   args: {
     article: {
       ...mockMicroCMSArticle,
-      tags: ['React', 'TypeScript', 'Next.js', 'Prisma', 'Docker', 'Tailwind'],
+      tags: [
+        { name: 'React', slug: 'react' },
+        { name: 'TypeScript', slug: 'typescript' },
+        { name: 'Next.js', slug: 'nextjs' },
+        { name: 'Prisma', slug: 'prisma' },
+        { name: 'Docker', slug: 'docker' },
+        { name: 'Tailwind', slug: 'tailwind' },
+      ],
     },
     viewMode: 'grid',
   },
@@ -178,7 +189,14 @@ export const ManyTagsList: Story = {
   args: {
     article: {
       ...mockMicroCMSArticle,
-      tags: ['React', 'TypeScript', 'Next.js', 'Prisma', 'Docker', 'Tailwind'],
+      tags: [
+        { name: 'React', slug: 'react' },
+        { name: 'TypeScript', slug: 'typescript' },
+        { name: 'Next.js', slug: 'nextjs' },
+        { name: 'Prisma', slug: 'prisma' },
+        { name: 'Docker', slug: 'docker' },
+        { name: 'Tailwind', slug: 'tailwind' },
+      ],
     },
     viewMode: 'list',
   },

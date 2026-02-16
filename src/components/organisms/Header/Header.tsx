@@ -8,7 +8,6 @@ import { IconButton } from '@/components/atoms/IconButton';
 import { AnimatedMenuIcon } from '@/components/atoms/AnimatedMenuIcon';
 import { MobileMenu } from '@/components/molecules/MobileMenu';
 import type { NavigationItem } from '@/components/molecules/Navigation';
-import { LAYOUT } from '@/constants/layout';
 
 export interface HeaderProps {
   /**
@@ -55,11 +54,10 @@ export function Header({
   return (
     <header className={classes}>
       <div
-        className="flex items-center relative z-[350]"
-        style={{ maxWidth: LAYOUT.MAX_WIDTH, margin: '0 auto', padding: `${LAYOUT.HEADER_PADDING_Y} ${LAYOUT.PADDING_X}`, width: '100%' }}
+        className="flex items-center relative z-[350] max-w-[1024px] mx-auto py-3 px-6 w-full"
       >
         <Logo />
-        <div className="flex items-center" style={{ gap: '24px', marginLeft: 'auto' }}>
+        <div className="flex items-center gap-6 ml-auto">
           {/* Desktop Navigation - Hidden on mobile */}
           <div className="hidden md:flex">
             <Navigation items={navigationItems} />

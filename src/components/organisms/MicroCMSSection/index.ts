@@ -1,0 +1,1 @@
+export { MicroCMSSection } from './MicroCMSSection';

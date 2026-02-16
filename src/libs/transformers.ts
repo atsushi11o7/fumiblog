@@ -1,3 +1,4 @@
+import type Parser from 'rss-parser';
 import type { Article, MicroCMSArticle } from '@/types/article';
 
 /**
@@ -8,9 +9,9 @@ export function transformMicroCMSArticle(data: MicroCMSArticle): Article {
     id: data.id,
     title: data.title,
     publishedAt: data.publishDate,
-    category: [data.category.name],
+    category: data.category,
     source: 'microcms',
-    tags: data.tags?.map((tag) => tag.name) || [],
+    tags: data.tags ?? [],
     href: `/blog/${data.slug}`,
     thumbnail: data.eyecatch?.url,
   };
@@ -19,27 +20,29 @@ export function transformMicroCMSArticle(data: MicroCMSArticle): Article {
 /**
  * QiitaのRSSフィードデータをArticle型に変換
  */
-export function transformQiitaArticle(item: any): Article {
+export function transformQiitaArticle(item: Parser.Item): Article {
   return {
-    id: item.guid || item.link,
-    title: item.title,
-    publishedAt: item.isoDate || item.pubDate,
-    category: item.categories || ['Qiita'],
+    id: item.guid || item.link || '',
+    title: item.title || '',
+    publishedAt: item.isoDate || item.pubDate || '',
+    category: { name: 'Qiita', slug: 'qiita' },
     source: 'qiita',
-    href: item.link,
+    tags: item.categories?.map((cat) => ({ name: cat, slug: cat.toLowerCase() })) ?? [],
+    href: item.link || '',
   };
 }
 
 /**
  * ZennのRSSフィードデータをArticle型に変換
  */
-export function transformZennArticle(item: any): Article {
+export function transformZennArticle(item: Parser.Item): Article {
   return {
-    id: item.guid || item.link,
-    title: item.title,
-    publishedAt: item.isoDate || item.pubDate,
-    category: item.categories || ['Zenn'],
+    id: item.guid || item.link || '',
+    title: item.title || '',
+    publishedAt: item.isoDate || item.pubDate || '',
+    category: { name: 'Zenn', slug: 'zenn' },
     source: 'zenn',
-    href: item.link,
+    tags: item.categories?.map((cat) => ({ name: cat, slug: cat.toLowerCase() })) ?? [],
+    href: item.link || '',
   };
 }

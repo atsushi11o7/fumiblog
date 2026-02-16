@@ -1,6 +1,5 @@
 import { Copyright } from '@/components/molecules/Copyright';
 import { SocialLinks, type SocialLink } from '@/components/molecules/SocialLinks';
-import { LAYOUT } from '@/constants/layout';
 
 export interface FooterProps {
   /**
@@ -28,8 +27,8 @@ export function Footer({
   className = '',
 }: FooterProps) {
   return (
-    <footer className={`tt border-t border-border ${className}`.trim()} style={{ padding: LAYOUT.PADDING_X }}>
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4" style={{ maxWidth: LAYOUT.MAX_WIDTH, margin: '0 auto', width: '100%' }}>
+    <footer className={`tt border-t border-border px-6 ${className}`.trim()}>
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4 max-w-[1024px] mx-auto w-full">
         <Copyright siteName={siteName} year={year} />
         <SocialLinks links={socialLinks} />
       </div>

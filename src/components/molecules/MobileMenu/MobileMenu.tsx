@@ -64,7 +64,7 @@ export function MobileMenu({
         style={{ willChange: 'transform' }}
       >
         {/* Navigation Links */}
-        <nav className="flex flex-col" style={{ gap: '24px', padding: '80px 24px 32px' }}>
+        <nav className="flex flex-col gap-6 pt-20 px-6 pb-8">
           {navigationItems.map((item) => (
             <NavLink
               key={item.href}

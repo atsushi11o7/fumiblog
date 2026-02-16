@@ -18,9 +18,9 @@ export interface Article {
   title: string;
   description?: string;
   publishedAt: string;
-  category: string[];
+  category: Category;
   source: ArticleSource;
-  tags?: string[];
+  tags?: Tag[];
   /** microCMS: `/blog/[slug]` / Qiita・Zenn: 外部URL */
   href: string;
   thumbnail?: string;
