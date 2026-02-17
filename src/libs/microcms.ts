@@ -1,6 +1,7 @@
 import { createClient } from 'microcms-js-sdk';
 import type { MicroCMSQueries } from 'microcms-js-sdk';
-import type { MicroCMSArticleSchema, Category, Tag } from '@/types/article';
+import type { MicroCMSArticleSchema, MicroCMSArticle, Category, Tag } from '@/types/article';
+import { transformMicroCMSArticle } from '@/libs/transformers';
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error('MICROCMS_SERVICE_DOMAIN is required');
@@ -23,7 +24,7 @@ export const getBlogs = async (queries?: MicroCMSQueries) => {
   return client.getList<Omit<MicroCMSArticleSchema, 'content' | 'updateDate'>>({
     endpoint: 'blogs',
     queries: {
-      fields: ['id', 'title', 'slug', 'publishDate', 'eyecatch', 'category', 'tags'],
+      fields: ['id', 'title', 'slug', 'publishDate', 'description', 'eyecatch', 'category', 'tags', 'isFeatured'],
       ...queries,
     },
   });
@@ -67,3 +68,39 @@ export const getTags = async (queries?: MicroCMSQueries) => {
     queries,
   });
 };
+
+/**
+ * Featured記事 + 全記事 + カテゴリを並列取得
+ * Featured: isFeatured=true があればそれ、なければ最新記事をFeaturedに
+ */
+export async function getFeaturedAndArticles() {
+  const [featuredRes, blogsRes, categoriesRes] = await Promise.all([
+    getBlogs({
+      filters: 'isFeatured[equals]true',
+      orders: '-publishDate',
+      limit: 1,
+    }).catch(() => null),
+    getBlogs({ limit: 100 }).catch(() => null),
+    getCategories().catch(() => null),
+  ]);
+
+  const allArticles = blogsRes
+    ? blogsRes.contents.map((item) =>
+        transformMicroCMSArticle(item as MicroCMSArticle)
+      )
+    : [];
+
+  const featuredFromAPI = featuredRes?.contents[0]
+    ? transformMicroCMSArticle(featuredRes.contents[0] as MicroCMSArticle)
+    : null;
+  const featuredArticle = featuredFromAPI ?? allArticles[0] ?? null;
+
+  // Featuredを除外した全記事を返す（表示件数の制限はMicroCMSContent側で行う）
+  const articles = featuredArticle
+    ? allArticles.filter((a) => a.id !== featuredArticle.id)
+    : allArticles;
+
+  const categories = categoriesRes?.contents ?? [];
+
+  return { featuredArticle, articles, categories };
+}

@@ -1,1 +1,1 @@
-export { MicroCMSSection } from './MicroCMSSection';
+export { MicroCMSContent } from './MicroCMSContent';

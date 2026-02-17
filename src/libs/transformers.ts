@@ -8,6 +8,7 @@ export function transformMicroCMSArticle(data: MicroCMSArticle): Article {
   return {
     id: data.id,
     title: data.title,
+    description: data.description,
     publishedAt: data.publishDate,
     category: data.category,
     source: 'microcms',

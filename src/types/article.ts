@@ -43,12 +43,14 @@ export interface MicroCMSArticleSchema {
   title: string;
   slug: string;
   publishDate: string;
-  updateDate: string;
+  updateDate?: string;
   /** リッチエディタ（HTML文字列。画像・埋め込み等を含む） */
   content: string;
+  description?: string;
   eyecatch: MicroCMSImage;
   category: Category;
   tags: Tag[];
+  isFeatured?: boolean;
 }
 
 /**

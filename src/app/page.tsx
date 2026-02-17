@@ -1,21 +1,33 @@
-import { MicroCMSSection } from '@/components/organisms/MicroCMSSection';
+import { getFeaturedAndArticles } from '@/libs/microcms';
+import { FeaturedCard } from '@/components/molecules/FeaturedCard';
+import { MicroCMSContent } from '@/components/organisms/MicroCMSSection/MicroCMSContent';
 import { RSSFeedSection } from '@/components/organisms/RSSFeedSection';
 
-export default function Home() {
+export default async function Home() {
+  const { featuredArticle, articles, categories } =
+    await getFeaturedAndArticles();
+
   return (
     <div className="space-y-12">
-      <div>
-        <h1 className="text-[2rem] mb-4 font-bold text-foreground">
-          Welcome to FumiBlog
-        </h1>
-        <p className="text-base leading-normal text-secondary">
-          技術と日常の学びを記録しています
-        </p>
+      {featuredArticle && <FeaturedCard article={featuredArticle} />}
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+        <main className="space-y-12">
+          {articles.length > 0 && (
+            <MicroCMSContent
+              articles={articles}
+              categories={categories}
+              maxArticles={4}
+              viewMoreHref="/blog"
+            />
+          )}
+          <RSSFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
+        </main>
+
+        <aside className="space-y-6">
+          {/* TODO: Sidebar components (SearchBox, ProfileCard, PopularArticles) */}
+        </aside>
       </div>
-
-      <MicroCMSSection maxArticles={4} viewMoreHref="/blog" />
-
-      <RSSFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
     </div>
   );
 }
