@@ -1,9 +1,11 @@
 import { getHomePageData } from '@/libs/microcms';
 import { FeaturedCard } from '@/components/molecules/FeaturedCard';
 import { MicroCMSContent } from '@/components/organisms/MicroCMSSection/MicroCMSContent';
-import { RSSFeedSection } from '@/components/organisms/RSSFeedSection';
+import { ExternalFeedSection } from '@/components/organisms/ExternalFeedSection';
 import { CategoryList, type CategoryWithCount } from '@/components/molecules/CategoryList';
 import { SidebarTagList } from '@/components/molecules/SidebarTagList';
+import { SearchBar } from '@/components/molecules/SearchBar';
+import { ProfileCard } from '@/components/molecules/ProfileCard';
 
 export default async function Home() {
   const { featuredArticle, articles, categories, tags } =
@@ -38,10 +40,21 @@ export default async function Home() {
               viewMoreHref="/blog"
             />
           )}
-          <RSSFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
+          <ExternalFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
         </main>
 
         <aside className="space-y-6">
+          <SearchBar />
+          <ProfileCard
+            name="Atsushi"
+            handle="@atsushi11o7"
+            bio="xxxx"
+            avatarSrc="/icon.png"
+            links={[
+              { label: 'GitHub', href: 'https://github.com/atsushi11o7', icon: 'github' },
+              { label: 'X', href: 'https://x.com/atsushi11o7', icon: 'twitter' },
+            ]}
+          />
           {categoriesWithCount.length > 0 && (
             <CategoryList categories={categoriesWithCount} />
           )}

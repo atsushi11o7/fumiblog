@@ -71,6 +71,14 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Accent contrast: text color on accent background (bypasses @theme resolution) */
+.text-accent-contrast {
+  color: #ffffff;
+}
+[data-theme="dark"] .text-accent-contrast {
+  color: #2A2A2E;
+}
+
 /* Utility Classes */
 .tt {
   transition: all 0.3s ease;

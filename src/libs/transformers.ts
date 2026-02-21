@@ -1,4 +1,3 @@
-import type Parser from 'rss-parser';
 import type { Article, MicroCMSArticle } from '@/types/article';
 
 /**
@@ -15,35 +14,5 @@ export function transformMicroCMSArticle(data: MicroCMSArticle): Article {
     tags: data.tags ?? [],
     href: `/blog/${data.slug}`,
     thumbnail: data.eyecatch?.url,
-  };
-}
-
-/**
- * QiitaのRSSフィードデータをArticle型に変換
- */
-export function transformQiitaArticle(item: Parser.Item): Article {
-  return {
-    id: item.guid || item.link || '',
-    title: item.title || '',
-    publishedAt: item.isoDate || item.pubDate || '',
-    category: { name: 'Qiita', slug: 'qiita' },
-    source: 'qiita',
-    tags: item.categories?.map((cat) => ({ name: cat, slug: cat.toLowerCase() })) ?? [],
-    href: item.link || '',
-  };
-}
-
-/**
- * ZennのRSSフィードデータをArticle型に変換
- */
-export function transformZennArticle(item: Parser.Item): Article {
-  return {
-    id: item.guid || item.link || '',
-    title: item.title || '',
-    publishedAt: item.isoDate || item.pubDate || '',
-    category: { name: 'Zenn', slug: 'zenn' },
-    source: 'zenn',
-    tags: item.categories?.map((cat) => ({ name: cat, slug: cat.toLowerCase() })) ?? [],
-    href: item.link || '',
   };
 }

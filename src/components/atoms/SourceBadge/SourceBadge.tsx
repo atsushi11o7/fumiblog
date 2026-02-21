@@ -46,7 +46,7 @@ export function SourceBadge({
 
   // microCMSはテーマカラーを使用
   const themeClasses = source === 'microcms'
-    ? 'bg-cat-accent text-accent-text'
+    ? 'bg-cat-accent text-white'
     : '';
 
   return (

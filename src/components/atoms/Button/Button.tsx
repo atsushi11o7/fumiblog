@@ -54,7 +54,7 @@ export function Button({
   const variantClasses = {
     default: 'bg-card text-foreground border border-border hover:bg-tag-bg',
     ghost: 'bg-transparent text-foreground border border-transparent hover:bg-tag-bg',
-    primary: 'bg-accent text-accent-text border border-accent hover:opacity-90',
+    primary: 'bg-accent text-accent-contrast border border-accent hover:opacity-90',
   };
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';

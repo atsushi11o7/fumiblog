@@ -1,7 +1,7 @@
 import { ArticleSection } from '@/components/organisms/ArticleSection';
 import type { Article } from '@/types/article';
 
-export interface RSSFeedContentProps {
+export interface ExternalFeedContentProps {
   articles: Article[];
   label: string;
   color: string;
@@ -9,13 +9,13 @@ export interface RSSFeedContentProps {
   viewMoreHref?: string;
 }
 
-export function RSSFeedContent({
+export function ExternalFeedContent({
   articles,
   label,
   color,
   maxArticles = 4,
   viewMoreHref,
-}: RSSFeedContentProps) {
+}: ExternalFeedContentProps) {
   return (
     <section>
       <h2

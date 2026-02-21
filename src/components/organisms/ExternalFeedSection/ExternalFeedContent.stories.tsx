@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { RSSFeedContent } from './RSSFeedContent';
+import { ExternalFeedContent } from './ExternalFeedContent';
 import type { Article } from '@/types/article';
 
 const meta = {
-  title: 'Organisms/RSSFeedContent',
-  component: RSSFeedContent,
+  title: 'Organisms/ExternalFeedContent',
+  component: ExternalFeedContent,
   parameters: {
     layout: 'padded',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof RSSFeedContent>;
+} satisfies Meta<typeof ExternalFeedContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
