@@ -70,11 +70,11 @@ export const getTags = async (queries?: MicroCMSQueries) => {
 };
 
 /**
- * Featured記事 + 全記事 + カテゴリを並列取得
- * Featured: isFeatured=true があればそれ、なければ最新記事をFeaturedに
+ * トップページ用データ一括取得
+ * Featured記事 + 全記事 + カテゴリ + タグを並列取得
  */
-export async function getFeaturedAndArticles() {
-  const [featuredRes, blogsRes, categoriesRes] = await Promise.all([
+export async function getHomePageData() {
+  const [featuredRes, blogsRes, categoriesRes, tagsRes] = await Promise.all([
     getBlogs({
       filters: 'isFeatured[equals]true',
       orders: '-publishDate',
@@ -82,6 +82,7 @@ export async function getFeaturedAndArticles() {
     }).catch(() => null),
     getBlogs({ limit: 100 }).catch(() => null),
     getCategories().catch(() => null),
+    getTags().catch(() => null),
   ]);
 
   const allArticles = blogsRes
@@ -95,12 +96,12 @@ export async function getFeaturedAndArticles() {
     : null;
   const featuredArticle = featuredFromAPI ?? allArticles[0] ?? null;
 
-  // Featuredを除外した全記事を返す（表示件数の制限はMicroCMSContent側で行う）
   const articles = featuredArticle
     ? allArticles.filter((a) => a.id !== featuredArticle.id)
     : allArticles;
 
   const categories = categoriesRes?.contents ?? [];
+  const tags = tagsRes?.contents ?? [];
 
-  return { featuredArticle, articles, categories };
+  return { featuredArticle, articles, categories, tags };
 }
