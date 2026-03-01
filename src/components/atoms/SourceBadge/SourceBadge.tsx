@@ -1,4 +1,5 @@
 import type { ArticleSource } from '@/types/article';
+import { SOURCE_COLORS } from '@/constants/sourceConfig';
 
 export interface SourceBadgeProps {
   /**
@@ -14,13 +15,6 @@ export interface SourceBadgeProps {
    */
   className?: string;
 }
-
-const sourceColors: Record<ArticleSource, React.CSSProperties> = {
-  microcms: {},
-  qiita: { backgroundColor: '#55C500', color: '#fff' },
-  zenn: { backgroundColor: '#3EA8FF', color: '#fff' },
-  note: { backgroundColor: '#41C9B4', color: '#fff' },
-};
 
 const baseStyle: React.CSSProperties = {
   fontSize: '10px',
@@ -42,7 +36,7 @@ export function SourceBadge({
 
   const style = source === 'microcms'
     ? { ...baseStyle }
-    : { ...baseStyle, ...sourceColors[source] };
+    : { ...baseStyle, ...SOURCE_COLORS[source] };
 
   // microCMSはテーマカラーを使用
   const themeClasses = source === 'microcms'

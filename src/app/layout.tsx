@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Header } from "@/components/organisms/Header";
 import { Footer } from "@/components/organisms/Footer";
+import { PageTransition } from "@/components/atoms/PageTransition/PageTransition";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,6 +38,12 @@ export default function RootLayout({
                   theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
                 document.documentElement.setAttribute('data-theme', theme);
+                try {
+                  if (sessionStorage.getItem('bootPlayed') !== '1' &&
+                      !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.documentElement.setAttribute('data-boot-phase', '0');
+                  }
+                } catch(e) {}
               })();
             `,
           }}
@@ -49,7 +56,7 @@ export default function RootLayout({
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1 max-w-[1024px] mx-auto py-12 px-6 w-full">
-              {children}
+              <PageTransition>{children}</PageTransition>
             </main>
             <Footer />
           </div>

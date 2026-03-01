@@ -6,6 +6,9 @@ import { CategoryList, type CategoryWithCount } from '@/components/molecules/Cat
 import { SidebarTagList } from '@/components/molecules/SidebarTagList';
 import { SearchBar } from '@/components/molecules/SearchBar';
 import { ProfileCard } from '@/components/molecules/ProfileCard';
+import { HeroSection } from '@/components/organisms/HeroSection';
+import { BootScreen } from '@/components/organisms/BootScreen';
+import { ScrollReveal } from '@/components/atoms/ScrollReveal/ScrollReveal';
 
 export default async function Home() {
   const { featuredArticle, articles, categories, tags } =
@@ -20,48 +23,52 @@ export default async function Home() {
 
   return (
     <div className="space-y-12">
-      <section>
-        <p className="text-xs tracking-widest text-secondary mb-4">
-          ENGINEER — YOKOHAMA
-        </p>
-        <h1 className="text-5xl font-bold mb-4">A space to share daily learnings</h1>
-        <p className="text-base text-secondary">技術と日常の学びを記録しています。</p>
-      </section>
+      <BootScreen />
 
-      {featuredArticle && <FeaturedCard article={featuredArticle} />}
+      <div data-reveal="hero">
+        <HeroSection />
+      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
-        <main className="space-y-12">
-          {articles.length > 0 && (
-            <MicroCMSContent
-              articles={articles}
-              categories={categories}
-              maxArticles={4}
-              viewMoreHref="/blog"
+      <div data-reveal="content" className="space-y-12">
+        {featuredArticle && (
+          <ScrollReveal>
+            <FeaturedCard article={featuredArticle} />
+          </ScrollReveal>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
+          <main className="space-y-12">
+            {articles.length > 0 && (
+              <MicroCMSContent
+                articles={articles}
+                categories={categories}
+                maxArticles={4}
+                viewMoreHref="/blog"
+              />
+            )}
+            <ExternalFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
+          </main>
+
+          <aside className="space-y-6">
+            <SearchBar />
+            <ProfileCard
+              name="Atsushi"
+              handle="@atsushi11o7"
+              bio="機械学習関連の開発を仕事にしながら、趣味でアプリ制作について勉強しています。"
+              avatarSrc="/icon.png"
+              links={[
+                { label: 'GitHub', href: 'https://github.com/atsushi11o7', icon: 'github' },
+                { label: 'X', href: 'https://x.com/atsushi11o7', icon: 'twitter' },
+              ]}
             />
-          )}
-          <ExternalFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
-        </main>
-
-        <aside className="space-y-6">
-          <SearchBar />
-          <ProfileCard
-            name="Atsushi"
-            handle="@atsushi11o7"
-            bio="xxxx"
-            avatarSrc="/icon.png"
-            links={[
-              { label: 'GitHub', href: 'https://github.com/atsushi11o7', icon: 'github' },
-              { label: 'X', href: 'https://x.com/atsushi11o7', icon: 'twitter' },
-            ]}
-          />
-          {categoriesWithCount.length > 0 && (
-            <CategoryList categories={categoriesWithCount} />
-          )}
-          {tags.length > 0 && (
-            <SidebarTagList tags={tags} />
-          )}
-        </aside>
+            {categoriesWithCount.length > 0 && (
+              <CategoryList categories={categoriesWithCount} />
+            )}
+            {tags.length > 0 && (
+              <SidebarTagList tags={tags} />
+            )}
+          </aside>
+        </div>
       </div>
     </div>
   );

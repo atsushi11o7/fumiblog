@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import type { Article } from '@/types/article';
+import { LAYOUT } from '@/constants/layout';
+import { formatDate } from '@/libs/utils';
 
 export interface FeaturedCardProps {
   article: Article;
@@ -8,20 +10,13 @@ export interface FeaturedCardProps {
 export function FeaturedCard({ article }: FeaturedCardProps) {
   const { title, description, publishedAt, tags, href, thumbnail } = article;
 
-  const formattedDate = new Date(publishedAt)
-    .toLocaleDateString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    })
-    .replace(/\//g, '.');
-
-  const displayTags = tags?.slice(0, 3);
+  const formattedDate = formatDate(publishedAt);
+  const displayTags = tags?.slice(0, LAYOUT.MAX_DISPLAY_TAGS);
 
   return (
     <Link
       href={href}
-      className="tt bg-featured rounded-xl overflow-hidden no-underline text-white hover:opacity-90 h-[220px] grid grid-cols-1 md:grid-cols-[1fr_280px]"
+      className="group tt bg-featured rounded-xl overflow-hidden no-underline text-white h-[220px] grid grid-cols-1 md:grid-cols-[1fr_280px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
     >
       <div className="p-6 flex flex-col justify-center gap-3 min-w-0">
         <div className="flex items-center gap-3">
@@ -33,7 +28,7 @@ export function FeaturedCard({ article }: FeaturedCardProps) {
           {title}
         </h3>
         {description && (
-          <p className="text-sm leading-relaxed opacity-85 line-clamp-2 whitespace-pre-line">
+          <p className="text-sm leading-relaxed opacity-85 line-clamp-2">
             {description}
           </p>
         )}
@@ -59,7 +54,7 @@ export function FeaturedCard({ article }: FeaturedCardProps) {
             <img
               src={thumbnail}
               alt={title}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
         </div>

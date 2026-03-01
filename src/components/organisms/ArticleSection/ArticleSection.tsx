@@ -1,4 +1,5 @@
 import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { ScrollReveal } from '@/components/atoms/ScrollReveal/ScrollReveal';
 import type { Article, ViewMode } from '@/types/article';
 
 export interface ArticleSectionProps {
@@ -47,8 +48,10 @@ export function ArticleSection({
         <h2 className="text-xl font-bold text-foreground mb-6">{title}</h2>
       )}
       <div className={containerClass}>
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} viewMode={viewMode} />
+        {articles.map((article, index) => (
+          <ScrollReveal key={article.id} delay={index * 60}>
+            <ArticleCard article={article} viewMode={viewMode} />
+          </ScrollReveal>
         ))}
       </div>
       {viewMoreHref && (
