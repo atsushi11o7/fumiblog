@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Article, ViewMode } from '@/types/article';
 import { SourceBadge } from '@/components/atoms/SourceBadge';
 import { TagBadge } from '@/components/atoms/TagBadge';
@@ -52,11 +53,13 @@ export function ArticleCard({
   // Grid表示
   if (viewMode === 'grid') {
     const gridThumbnail = thumbnail ? (
-      <div className="overflow-hidden h-40">
-        <img
+      <div className="relative overflow-hidden h-40">
+        <Image
           src={thumbnail}
           alt={title}
-          className="w-full h-full object-cover block group-hover:scale-105 transition-transform duration-500"
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 500px"
         />
       </div>
     ) : (
@@ -94,11 +97,13 @@ export function ArticleCard({
 
   // List表示
   const listThumbnail = thumbnail ? (
-    <div className="overflow-hidden rounded-lg w-[120px] h-20 shrink-0">
-      <img
+    <div className="relative overflow-hidden rounded-lg w-[120px] h-20 shrink-0">
+      <Image
         src={thumbnail}
         alt={title}
-        className="object-cover w-full h-full block group-hover:scale-105 transition-transform duration-500"
+        fill
+        className="object-cover group-hover:scale-105 transition-transform duration-500"
+        sizes="120px"
       />
     </div>
   ) : (

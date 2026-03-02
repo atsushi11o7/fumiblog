@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import { getBlogs } from '@/libs/microcms';
 import { fetchQiitaArticles, fetchZennArticles } from '@/libs/external-api';
 import { transformMicroCMSArticle } from '@/libs/transformers';
 import { BlogContent } from '@/components/organisms/BlogContent';
 import type { MicroCMSArticle } from '@/types/article';
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: '技術と日常の学びをまとめた記事一覧です。',
+};
 
 export default async function BlogPage({
   searchParams,

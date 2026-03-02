@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getBlogBySlug } from '@/libs/microcms';
 import { processArticleContent } from '@/libs/article-processor';
 import { SourceBadge } from '@/components/atoms/SourceBadge';
@@ -8,10 +9,30 @@ import { formatDate } from '@/libs/utils';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  try {
+    const article = await getBlogBySlug(slug);
+    return {
+      title: article.title,
+      description: article.description,
+      openGraph: {
+        title: article.title,
+        description: article.description,
+        type: 'article',
+        images: article.eyecatch ? [{ url: article.eyecatch.url }] : [],
+      },
+    };
+  } catch {
+    return { title: 'Not Found' };
+  }
+}
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -71,11 +92,14 @@ export default async function BlogDetailPage({ params }: Props) {
         <article>
           {/* アイキャッチ画像 */}
           {article.eyecatch && (
-            <div className="w-full aspect-video overflow-hidden rounded-xl mb-8">
-              <img
+            <div className="relative w-full aspect-video overflow-hidden rounded-xl mb-8">
+              <Image
                 src={article.eyecatch.url}
                 alt={article.title}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 764px"
+                priority
               />
             </div>
           )}

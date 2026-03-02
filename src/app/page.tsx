@@ -36,8 +36,8 @@ export default async function Home() {
           </ScrollReveal>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-8">
-          <main className="space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_260px] gap-8">
+          <main className="min-w-0 space-y-12">
             {articles.length > 0 && (
               <MicroCMSContent
                 articles={articles}

@@ -5,6 +5,7 @@ import { Header } from "@/components/organisms/Header";
 import { Footer } from "@/components/organisms/Footer";
 import { PageTransition } from "@/components/atoms/PageTransition/PageTransition";
 import "./globals.css";
+import { siteUrl } from '@/libs/config';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,8 +18,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FumiBlog - A space to share daily learnings",
-  description: "技術と日常の学びを記録しています",
+  metadataBase: new URL(siteUrl),
+  title: {
+    template: '%s | FumiBlog',
+    default: 'FumiBlog - A space to share daily learnings',
+  },
+  description: '技術と日常の学びを記録しています',
+  openGraph: {
+    siteName: 'FumiBlog',
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@atsushi11o7',
+  },
 };
 
 export default function RootLayout({

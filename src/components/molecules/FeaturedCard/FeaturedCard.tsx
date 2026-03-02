@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Article } from '@/types/article';
 import { LAYOUT } from '@/constants/layout';
 import { formatDate } from '@/libs/utils';
@@ -51,10 +52,13 @@ export function FeaturedCard({ article }: FeaturedCardProps) {
       {thumbnail && (
         <div className="hidden md:block p-4">
           <div className="relative w-full h-full overflow-hidden rounded-lg">
-            <img
+            <Image
               src={thumbnail}
               alt={title}
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              sizes="280px"
+              priority
             />
           </div>
         </div>

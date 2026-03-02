@@ -4,10 +4,22 @@ import { transformMicroCMSArticle } from '@/libs/transformers';
 import { FilteredArticleContent } from '@/components/organisms/FilteredArticleContent';
 import { notFound } from 'next/navigation';
 import type { MicroCMSArticle } from '@/types/article';
+import type { Metadata } from 'next';
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const tagsResponse = await getTags().catch(() => null);
+  const tag = tagsResponse?.contents.find((t) => t.slug === slug);
+  if (!tag) return { title: 'Not Found' };
+  return {
+    title: `#${tag.name}`,
+    description: `#${tag.name}タグの記事一覧`,
+  };
+}
 
 export default async function TagPage({ params }: Props) {
   const { slug } = await params;
