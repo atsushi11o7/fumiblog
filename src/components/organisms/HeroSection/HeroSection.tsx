@@ -79,7 +79,7 @@ export function HeroSection({
                 <span className="hero-cursor-blink-inline" aria-hidden="true">{'\u2060'}</span>
               )}
               {hiddenPart && (
-                <span className="opacity-0" aria-hidden="true">{hiddenPart}</span>
+                <span style={{ visibility: 'hidden' }} aria-hidden="true">{hiddenPart}</span>
               )}
             </>
           );
