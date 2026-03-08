@@ -112,9 +112,6 @@ export default async function BlogDetailPage({ params }: Props) {
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-4">
             <TableOfContents headings={headings} />
-            <div className="rounded-xl border border-dashed border-border p-4 text-center text-muted text-sm">
-              広告スペース
-            </div>
           </div>
         </aside>
       </div>
