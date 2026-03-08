@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Disable transitions during initial page load to prevent dark mode FOUC */
+.no-transitions,
+.no-transitions * {
+  transition: none !important;
+}
+
 /* Theme Color Tokens */
 :root {
   /* Light Theme Colors */
