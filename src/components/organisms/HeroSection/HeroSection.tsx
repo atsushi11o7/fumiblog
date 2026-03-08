@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
 import { Terminal, MapPin, Code2 } from 'lucide-react';
 
 const HEADING = 'A space to share daily\u00A0learnings';
@@ -72,8 +72,26 @@ export function HeroSection({
           const hiddenPart = seg.text.slice(visibleLen);
           const showCursor = si === cursorIn;
 
-          const inner = (
-            <>
+          if (seg.isAccent) {
+            // hiddenPart must be outside the gradient span to avoid WebKit
+            // background-clip:text bug where visibility:hidden is ignored
+            return (
+              <Fragment key={si}>
+                <span className="hero-gradient-text">
+                  {visiblePart}
+                  {showCursor && (
+                    <span className="hero-cursor-blink-inline" aria-hidden="true">{'\u2060'}</span>
+                  )}
+                </span>
+                {hiddenPart && (
+                  <span style={{ visibility: 'hidden' }} aria-hidden="true">{hiddenPart}</span>
+                )}
+              </Fragment>
+            );
+          }
+
+          return (
+            <span key={si}>
               {visiblePart}
               {showCursor && (
                 <span className="hero-cursor-blink-inline" aria-hidden="true">{'\u2060'}</span>
@@ -81,13 +99,7 @@ export function HeroSection({
               {hiddenPart && (
                 <span style={{ visibility: 'hidden' }} aria-hidden="true">{hiddenPart}</span>
               )}
-            </>
-          );
-
-          return seg.isAccent ? (
-            <span key={si} className="hero-gradient-text">{inner}</span>
-          ) : (
-            <span key={si}>{inner}</span>
+            </span>
           );
         })}
       </>

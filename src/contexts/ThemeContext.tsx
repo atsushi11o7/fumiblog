@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
 
@@ -30,6 +30,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     setTheme(initialTheme);
     setMounted(true);
+
+    // Re-enable transitions after hydration to prevent dark mode FOUC
+    const t = setTimeout(() => {
+      document.documentElement.classList.remove('no-transitions');
+    }, 100);
+    return () => clearTimeout(t);
   }, []);
 
   // Update document attribute and localStorage when theme changes

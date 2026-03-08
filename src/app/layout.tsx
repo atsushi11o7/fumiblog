@@ -52,6 +52,7 @@ export default function RootLayout({
                   theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
                 }
                 document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.classList.add('no-transitions');
                 try {
                   if (sessionStorage.getItem('bootPlayed') !== '1' &&
                       !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
