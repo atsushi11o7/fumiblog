@@ -4,7 +4,6 @@ import { processArticleContent } from '@/libs/article-processor';
 import { SourceBadge } from '@/components/atoms/SourceBadge';
 import { TagBadge } from '@/components/atoms/TagBadge';
 import { TableOfContents } from '@/components/organisms/TableOfContents';
-import { AccentCard } from '@/components/atoms/AccentCard';
 import { formatDate } from '@/libs/utils';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
@@ -57,35 +56,33 @@ export default async function BlogDetailPage({ params }: Props) {
         ブログ一覧に戻る
       </Link>
 
-      {/* 記事ヘッダーカード */}
-      <AccentCard>
-        <div className="pl-4 space-y-4">
-          {/* タイトル */}
-          <h1 className="text-[1.75rem] md:text-[2rem] font-bold leading-tight text-foreground">
-            {article.title}
-          </h1>
+      {/* 記事ヘッダー */}
+      <div className="space-y-4 py-4">
+        {/* タイトル */}
+        <h1 className="text-[1.75rem] md:text-[2rem] font-bold leading-tight text-foreground">
+          {article.title}
+        </h1>
 
-          {/* カテゴリ・日付・更新日時 */}
-          <div className="flex flex-wrap items-center gap-4">
-            <SourceBadge source="microcms" categoryName={article.category.name} />
-            <span className="text-sm text-muted">{formatDate(article.publishDate)}</span>
-            {article.updateDate && (
-              <span className="text-sm text-muted border border-border rounded px-2 py-0.5">
-                更新: {formatDate(article.updateDate)}
-              </span>
-            )}
-          </div>
-
-          {/* タグ */}
-          {article.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <TagBadge key={tag.slug} label={tag.name} size="medium" />
-              ))}
-            </div>
+        {/* カテゴリ・日付・更新日時 */}
+        <div className="flex flex-wrap items-center gap-4">
+          <SourceBadge source="microcms" categoryName={article.category.name} />
+          <span className="text-sm text-muted">{formatDate(article.publishDate)}</span>
+          {article.updateDate && (
+            <span className="text-sm text-muted border border-border rounded px-2 py-0.5">
+              更新: {formatDate(article.updateDate)}
+            </span>
           )}
         </div>
-      </AccentCard>
+
+        {/* タグ */}
+        {article.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {article.tags.map((tag) => (
+              <TagBadge key={tag.slug} label={tag.name} size="medium" />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* 本文 + サイドバー（2カラム） */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-10">
