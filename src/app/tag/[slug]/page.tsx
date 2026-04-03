@@ -12,7 +12,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const tagsResponse = await getTags().catch(() => null);
+  const tagsResponse = await getTags({ limit: 100 }).catch(() => null);
   const tag = tagsResponse?.contents.find((t) => t.slug === slug);
   if (!tag) return { title: 'Not Found' };
   return {
@@ -26,7 +26,7 @@ export default async function TagPage({ params }: Props) {
 
   const [blogsResponse, tagsResponse, qiitaArticles] = await Promise.all([
     getBlogs().catch(() => null),
-    getTags().catch(() => null),
+    getTags({ limit: 100 }).catch(() => null),
     fetchQiitaArticles().catch(() => []),
   ]);
 

@@ -5,8 +5,8 @@ import { siteUrl } from '@/libs/config';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [blogsRes, categoriesRes, tagsRes] = await Promise.all([
     getBlogs({ limit: 100 }).catch(() => null),
-    getCategories().catch(() => null),
-    getTags().catch(() => null),
+    getCategories({ limit: 100 }).catch(() => null),
+    getTags({ limit: 100 }).catch(() => null),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [

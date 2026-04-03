@@ -81,8 +81,8 @@ export async function getHomePageData() {
       limit: 1,
     }).catch(() => null),
     getBlogs({ limit: 100 }).catch(() => null),
-    getCategories().catch(() => null),
-    getTags().catch(() => null),
+    getCategories({ limit: 100 }).catch(() => null),
+    getTags({ limit: 100 }).catch(() => null),
   ]);
 
   const allArticles = blogsRes
