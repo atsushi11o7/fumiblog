@@ -50,8 +50,8 @@ export function FeaturedCard({ article }: FeaturedCardProps) {
         </div>
       </div>
       {thumbnail && (
-        <div className="hidden md:block p-4">
-          <div className="relative w-full h-full overflow-hidden rounded-lg">
+        <div className="hidden md:block relative">
+          <div className="absolute inset-4 overflow-hidden rounded-lg">
             <Image
               src={thumbnail}
               alt={title}

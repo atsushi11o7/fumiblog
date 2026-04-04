@@ -27,21 +27,21 @@ export function SearchBar({ className = '' }: SearchBarProps) {
   return (
     <div className={`bg-card border border-border rounded-xl p-4 ${className}`.trim()}>
       <h3 className="text-xs tracking-widest text-secondary mb-3">SEARCH</h3>
-      <div className="flex items-center gap-2">
+      <div className="relative">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="記事を検索..."
-          className="flex-1 bg-background text-foreground border border-border rounded-md px-3 py-1.5 text-sm outline-none focus:border-foreground tt"
+          className="w-full bg-background text-foreground border border-border rounded-md pl-3 pr-9 py-1.5 text-sm outline-none focus:border-foreground tt"
         />
         <button
           onClick={handleSearch}
           aria-label="検索"
-          className="tt text-secondary hover:text-foreground shrink-0"
+          className="tt absolute right-2.5 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground"
         >
-          <Search size={18} />
+          <Search size={16} />
         </button>
       </div>
     </div>
