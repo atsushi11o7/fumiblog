@@ -4,15 +4,36 @@
     "dockerfile": "Dockerfile",
     "context": ".."
   },
+  "features": {
+    "ghcr.io/atsushi11o7/devcontainer-features/base-utils:2": {
+      "locale": "C.UTF-8",
+      "timezone": "Asia/Tokyo"
+    }
+  },
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
-
-  // ポート転送設定
+  "runArgs": ["--env-file", "${localWorkspaceFolder}/.env.local"],
+  "mounts": [
+    "source=fumiblog-claude-config,target=/home/node/.claude,type=volume"
+  ],
   "forwardPorts": [3000, 6006, 9229],
-
-  // Next.jsプロジェクト作成後に有効化
-  // "postCreateCommand": "npm install",
-
+  "postCreateCommand": "test -f package.json && npm install || true",
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/node/.claude",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "GitHub.vscode-pull-request-github"
+      ]
+    }
+  },
   "remoteUser": "node",
   "updateRemoteUserUID": true
 }
