@@ -50,7 +50,7 @@ export function FeaturedCard({ article }: FeaturedCardProps) {
         </div>
       </div>
       {thumbnail && (
-        <div className="hidden md:block relative">
+        <div className="hidden md:block relative self-stretch">
           <div className="absolute inset-4 overflow-hidden rounded-lg">
             <Image
               src={thumbnail}

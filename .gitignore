@@ -45,3 +45,9 @@ next-env.d.ts
 temp/
 *storybook.log
 storybook-static
+
+# Claude Code
+.claude/settings.local.json
+.claude/skills/frontend-design/
+.claude/skills/doc-coauthoring/
+.claude/skills/skill-creator/
