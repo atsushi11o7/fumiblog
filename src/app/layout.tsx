@@ -70,7 +70,7 @@ export default function RootLayout({
         <ThemeProvider>
           <div className="min-h-screen flex flex-col">
             <Header />
-            <main className="flex-1 max-w-[1024px] mx-auto py-12 px-6 w-full">
+            <main className="flex-1 max-w-5xl mx-auto py-12 px-6 w-full">
               <PageTransition>{children}</PageTransition>
             </main>
             <Footer />
