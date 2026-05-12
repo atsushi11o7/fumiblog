@@ -45,17 +45,17 @@ export function IconButton({
   className = '',
   'aria-label': ariaLabel,
 }: IconButtonProps) {
-  const baseClasses = 'tt flex items-center justify-center cursor-pointer transition-all duration-300 text-foreground';
+  const baseClasses = 'flex items-center justify-center cursor-pointer transition-colors duration-200 text-foreground';
 
   const sizeClasses = {
-    small: 'w-8 h-8 rounded-lg text-sm',
-    medium: 'w-11 h-11 rounded-xl text-lg',
-    large: 'w-14 h-14 rounded-[14px] text-[22px]',
+    small: 'w-8 h-8 rounded-md text-sm',
+    medium: 'w-11 h-11 rounded-md text-lg',
+    large: 'w-14 h-14 rounded-md text-[22px]',
   };
 
   const variantClasses = {
-    default: 'bg-card border border-border hover:bg-tag-bg',
-    ghost: 'bg-transparent border border-transparent hover:bg-tag-bg',
+    default: 'bg-card border border-border hover:bg-tag-bg hover:border-cat-accent',
+    ghost: 'bg-transparent border border-transparent hover:bg-tag-bg hover:border-cat-accent',
   };
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';

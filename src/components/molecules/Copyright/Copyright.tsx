@@ -1,26 +1,17 @@
 export interface CopyrightProps {
-  /**
-   * サイト名
-   */
   siteName?: string;
-  /**
-   * 年
-   */
   year?: number;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
 export function Copyright({
-  siteName = 'FumiBlog',
+  siteName = 'fumiblog',
   year = new Date().getFullYear(),
   className = '',
 }: CopyrightProps) {
   return (
-    <p className={`text-xs text-muted ${className}`.trim()}>
-      © {year} {siteName}
+    <p className={`mono text-[11px] text-syntax-comment ${className}`.trim()}>
+      {`// © ${year} ${siteName}`}
     </p>
   );
 }
