@@ -48,13 +48,13 @@ export function Header({
   const handleMenuClose = () => setIsMobileMenuOpen(false);
 
   // z-index の階層構造: Header (300) > MobileMenu (200), Header content (350) > Header (300)
-  const baseClasses = 'tt w-full bg-bg-secondary border-b border-border sticky top-0 z-[300]';
+  const baseClasses = 'tt w-full bg-bg-secondary border-b border-border sticky top-0 z-300';
   const classes = `${baseClasses} ${className}`.trim();
 
   return (
     <header className={classes}>
       <div
-        className="flex items-center relative z-[350] max-w-[1024px] mx-auto py-3 px-6 w-full"
+        className="flex items-center relative z-350 max-w-5xl mx-auto py-3 px-6 w-full"
       >
         <Logo />
         <div className="flex items-center gap-6 ml-auto">
