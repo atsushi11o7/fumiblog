@@ -47,9 +47,7 @@ export function HeroHeading({ text, accent, displayLen }: HeroHeadingProps) {
         const visiblePart = seg.text.slice(0, visibleLen);
         const hiddenPart = seg.text.slice(visibleLen);
         const showCursor = si === cursorIn;
-        const accentClass = seg.isAccent
-          ? 'text-cat-accent underline decoration-cat-accent decoration-[6px] underline-offset-[0.18em]'
-          : '';
+        const accentClass = seg.isAccent ? 'text-cat-accent' : '';
 
         return (
           <span key={si} className={accentClass}>

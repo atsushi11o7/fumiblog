@@ -17,9 +17,12 @@ export const Default: Story = {
   args: {},
 };
 
-export const CustomLabel: Story = {
+export const CustomMeta: Story = {
   args: {
-    label: 'FRONTEND ENGINEER — TOKYO',
+    author: 'Jane Doe (@jane)',
+    role: 'FRONTEND ENGINEER',
+    stack: 'TypeScript · React',
+    loc: 'Tokyo, JP',
     subtitle: '目的を持ったインターフェースを構築しています。',
   },
 };
