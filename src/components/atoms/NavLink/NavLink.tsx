@@ -1,31 +1,13 @@
-import React from 'react';
 import Link from 'next/link';
+import type { CSSProperties, ReactNode } from 'react';
 
 export interface NavLinkProps {
-  /**
-   * Link href
-   */
   href: string;
-  /**
-   * Link text
-   */
-  children: React.ReactNode;
-  /**
-   * Active state
-   */
+  children: ReactNode;
   active?: boolean;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
-  /**
-   * Click handler
-   */
   onClick?: () => void;
-  /**
-   * Inline styles
-   */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export function NavLink({
@@ -36,13 +18,17 @@ export function NavLink({
   onClick,
   style,
 }: NavLinkProps) {
-  const baseClasses = 'tt text-sm text-secondary no-underline transition-all duration-300 hover:text-foreground';
-  const activeClasses = active ? 'text-foreground' : '';
-  const classes = `${baseClasses} ${activeClasses} ${className}`.trim();
+  const base = 'mono text-xs uppercase tracking-widest no-underline transition-colors duration-200';
+  const state = active
+    ? 'text-cat-accent font-semibold'
+    : 'text-secondary hover:text-foreground';
+  const classes = `${base} ${state} ${className}`.trim();
 
   return (
     <Link href={href} className={classes} onClick={onClick} style={style}>
+      {active && <span aria-hidden="true">[ </span>}
       {children}
+      {active && <span aria-hidden="true"> ]</span>}
     </Link>
   );
 }
