@@ -5,21 +5,9 @@ import { NavLink } from '@/components/atoms/NavLink';
 import type { NavigationItem } from '@/components/molecules/Navigation';
 
 export interface MobileMenuProps {
-  /**
-   * Whether the menu is open
-   */
   isOpen: boolean;
-  /**
-   * Close handler
-   */
   onClose: () => void;
-  /**
-   * Navigation items to display
-   */
   navigationItems?: NavigationItem[];
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
@@ -29,12 +17,9 @@ export function MobileMenu({
   navigationItems = [],
   className = '',
 }: MobileMenuProps) {
-  // Handle Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
+      if (e.key === 'Escape' && isOpen) onClose();
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
@@ -50,7 +35,7 @@ export function MobileMenu({
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 tt"
+        className="absolute inset-0 bg-black/50 transition-opacity duration-300"
         style={{ opacity: isOpen ? 1 : 0 }}
         onClick={onClose}
         aria-hidden="true"
@@ -58,20 +43,41 @@ export function MobileMenu({
 
       {/* Menu Panel */}
       <div
-        className={`absolute right-0 top-0 h-full w-full max-w-sm bg-bg-secondary border-l border-border tt ${
+        className={`absolute right-0 top-0 h-full w-full max-w-sm bg-bg-secondary border-l border-border transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         style={{ willChange: 'transform' }}
       >
+        {/* Header label */}
+        <div className="px-6 pt-20 pb-4 border-b border-border">
+          <p className="mono text-[10px] uppercase tracking-widest text-syntax-comment">
+            {'// menu'}
+          </p>
+        </div>
+
+        {/* Corner brackets */}
+        <span
+          className="absolute top-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none"
+          aria-hidden="true"
+        >
+          ─┐
+        </span>
+        <span
+          className="absolute bottom-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none"
+          aria-hidden="true"
+        >
+          ─┘
+        </span>
+
         {/* Navigation Links */}
-        <nav className="flex flex-col gap-6 pt-20 px-6 pb-8">
+        <nav className="flex flex-col gap-5 pt-6 px-6 pb-8">
           {navigationItems.map((item) => (
             <NavLink
               key={item.href}
               href={item.href}
               active={item.active}
               onClick={onClose}
-              style={{ fontSize: '18px' }}
+              className="!text-base"
             >
               {item.label}
             </NavLink>
