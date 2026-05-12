@@ -17,6 +17,7 @@ export function MobileMenu({
   navigationItems = [],
   className = '',
 }: MobileMenuProps) {
+  // Close on Escape
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) onClose();
@@ -25,10 +26,25 @@ export function MobileMenu({
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
+  // Close when viewport widens past md breakpoint (the toggle button hides)
+  useEffect(() => {
+    if (!isOpen) return;
+    const mql = window.matchMedia('(min-width: 768px)');
+    if (mql.matches) {
+      onClose();
+      return;
+    }
+    const handler = (e: MediaQueryListEvent) => {
+      if (e.matches) onClose();
+    };
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, [isOpen, onClose]);
+
   return (
     <div
       id="mobile-menu"
-      className={`fixed inset-0 z-[200] ${isOpen ? 'visible' : 'invisible'} ${className}`.trim()}
+      className={`fixed inset-0 z-200 md:hidden ${isOpen ? 'visible' : 'invisible'} ${className}`.trim()}
       role="dialog"
       aria-modal="true"
       aria-label="Mobile navigation menu"
@@ -55,20 +71,6 @@ export function MobileMenu({
           </p>
         </div>
 
-        {/* Corner brackets */}
-        <span
-          className="absolute top-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none"
-          aria-hidden="true"
-        >
-          ─┐
-        </span>
-        <span
-          className="absolute bottom-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none"
-          aria-hidden="true"
-        >
-          ─┘
-        </span>
-
         {/* Navigation Links */}
         <nav className="flex flex-col gap-5 pt-6 px-6 pb-8">
           {navigationItems.map((item) => (
@@ -77,7 +79,7 @@ export function MobileMenu({
               href={item.href}
               active={item.active}
               onClick={onClose}
-              className="!text-base"
+              className="text-base!"
             >
               {item.label}
             </NavLink>
