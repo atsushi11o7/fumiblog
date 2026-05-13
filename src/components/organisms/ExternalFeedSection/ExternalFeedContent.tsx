@@ -19,9 +19,10 @@ export function ExternalFeedContent({
   return (
     <section>
       <h2
-        className="mono font-normal tracking-[0.05em] uppercase mb-4"
-        style={{ color, fontSize: '13px' }}
+        className="mono tracking-widest uppercase mb-6 inline-flex items-center gap-1.5 text-sm"
+        style={{ color }}
       >
+        <span aria-hidden="true">▶</span>
         {label}
       </h2>
       <ArticleSection
