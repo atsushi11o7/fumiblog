@@ -18,8 +18,8 @@ export function Footer({
 
   return (
     <footer className={`border-t border-border px-6 py-8 ${className}`.trim()}>
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 max-w-5xl mx-auto w-full">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+      <div className="flex flex-col items-center text-center gap-4 md:flex-row md:justify-between md:items-center md:text-left max-w-5xl mx-auto w-full">
+        <div className="flex flex-col items-center gap-1 md:flex-row md:flex-wrap md:items-center md:gap-x-4 md:gap-y-1">
           <Copyright siteName={siteName} year={year} />
           <span className="mono text-[11px] text-syntax-comment">
             <span className="text-cat-accent" aria-hidden="true">▶</span>
