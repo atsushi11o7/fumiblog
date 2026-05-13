@@ -2,17 +2,8 @@ import type { ArticleSource } from '@/types/article';
 import { SOURCE_COLORS } from '@/constants/sourceConfig';
 
 export interface SourceBadgeProps {
-  /**
-   * 記事のソース（プラットフォーム）
-   */
   source: ArticleSource;
-  /**
-   * microCMSの場合のカテゴリ名
-   */
   categoryName?: string;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
@@ -23,6 +14,7 @@ const baseStyle: React.CSSProperties = {
   borderRadius: '3px',
   display: 'inline-block',
   lineHeight: 1.4,
+  letterSpacing: '0.05em',
 };
 
 export function SourceBadge({
@@ -38,14 +30,13 @@ export function SourceBadge({
     ? { ...baseStyle }
     : { ...baseStyle, ...SOURCE_COLORS[source] };
 
-  // microCMSはテーマカラーを使用
   const themeClasses = source === 'microcms'
     ? 'bg-cat-accent text-white'
     : '';
 
   return (
     <span
-      className={`${themeClasses} ${className}`.trim()}
+      className={`mono uppercase ${themeClasses} ${className}`.trim()}
       style={style}
     >
       {label}

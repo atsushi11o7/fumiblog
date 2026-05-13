@@ -1,44 +1,20 @@
 import React from 'react';
 
 export interface ButtonProps {
-  /**
-   * Button contents
-   */
   children: React.ReactNode;
-  /**
-   * Click handler
-   */
   onClick?: () => void;
-  /**
-   * Button size
-   */
   size?: 'small' | 'medium' | 'large';
-  /**
-   * Button variant
-   */
   variant?: 'default' | 'ghost' | 'primary';
-  /**
-   * Button type
-   */
   type?: 'button' | 'submit' | 'reset';
-  /**
-   * Disabled state
-   */
   disabled?: boolean;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
-  /**
-   * ARIA label for accessibility
-   */
   'aria-label'?: string;
 }
 
 const sizeStyles: Record<string, React.CSSProperties> = {
   small: { padding: '4px 12px', fontSize: '10px', borderRadius: '4px' },
-  medium: { padding: '6px 14px', fontSize: '13px', borderRadius: '6px' },
-  large: { padding: '8px 20px', fontSize: '12px', borderRadius: '6px' },
+  medium: { padding: '6px 14px', fontSize: '12px', borderRadius: '4px' },
+  large: { padding: '8px 20px', fontSize: '13px', borderRadius: '4px' },
 };
 
 export function Button({
@@ -52,14 +28,14 @@ export function Button({
   'aria-label': ariaLabel,
 }: ButtonProps) {
   const variantClasses = {
-    default: 'bg-card text-foreground border border-border hover:bg-tag-bg',
-    ghost: 'bg-transparent text-foreground border border-transparent hover:bg-tag-bg',
-    primary: 'bg-accent text-accent-contrast border border-accent hover:opacity-90',
+    default: 'bg-card text-foreground border border-border hover:border-cat-accent',
+    ghost: 'bg-transparent text-secondary border border-transparent hover:text-foreground hover:bg-tag-bg',
+    primary: 'bg-cat-accent text-white border border-cat-accent hover:opacity-90',
   };
 
   const disabledClasses = disabled ? 'opacity-50 cursor-not-allowed' : '';
 
-  const classes = `tt inline-flex items-center justify-center cursor-pointer font-medium ${variantClasses[variant]} ${disabledClasses} ${className}`.trim();
+  const classes = `mono uppercase tracking-wider inline-flex items-center justify-center cursor-pointer transition-colors duration-200 ${variantClasses[variant]} ${disabledClasses} ${className}`.trim();
 
   return (
     <button

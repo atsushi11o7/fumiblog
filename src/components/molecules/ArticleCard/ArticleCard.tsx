@@ -8,17 +8,8 @@ import { LAYOUT } from '@/constants/layout';
 import { formatDate } from '@/libs/utils';
 
 export interface ArticleCardProps {
-  /**
-   * 記事データ
-   */
   article: Article;
-  /**
-   * 表示モード
-   */
   viewMode?: ViewMode;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
@@ -27,33 +18,24 @@ export function ArticleCard({
   viewMode = 'grid',
   className = '',
 }: ArticleCardProps) {
-  const {
-    title,
-    publishedAt,
-    category,
-    source,
-    href,
-    thumbnail,
-    tags,
-  } = article;
+  const { title, publishedAt, category, source, href, thumbnail, tags } = article;
 
   const isExternal = source === 'qiita' || source === 'zenn' || source === 'note';
   const displayTags = tags?.slice(0, LAYOUT.MAX_DISPLAY_TAGS);
   const formattedDate = formatDate(publishedAt);
 
-  // タグ要素（Grid/List共通）
   const tagsElement = displayTags && displayTags.length > 0 ? (
     <div className="flex gap-1 overflow-hidden">
-      {displayTags.map(tag => (
+      {displayTags.map((tag) => (
         <TagBadge key={tag.slug} label={tag.name} size="small" className="shrink-0" />
       ))}
     </div>
   ) : null;
 
-  // Grid表示
+  // Grid view
   if (viewMode === 'grid') {
     const gridThumbnail = thumbnail ? (
-      <div className="relative overflow-hidden h-40">
+      <div className="relative overflow-hidden h-40 border-b border-border">
         <Image
           src={thumbnail}
           alt={title}
@@ -64,10 +46,10 @@ export function ArticleCard({
       </div>
     ) : (
       <div
-        className="w-full flex items-center justify-center h-40"
+        className="flex items-center justify-center h-40 border-b border-border"
         style={SOURCE_COLORS[source]}
       >
-        <span className="font-bold text-lg uppercase">{source}</span>
+        <span className="mono font-bold text-lg uppercase tracking-widest">{source}</span>
       </div>
     );
 
@@ -76,17 +58,15 @@ export function ArticleCard({
         href={href}
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
-        className={`group block bg-card border border-border rounded-xl overflow-hidden no-underline text-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${className}`.trim()}
+        className={`group block bg-card border border-border rounded-md overflow-hidden no-underline text-foreground hover:border-cat-accent transition-colors ${className}`.trim()}
       >
         {gridThumbnail}
-        <div className="p-5">
+        <div className="p-4">
           <div className="flex justify-between items-center mb-2.5">
             <SourceBadge source={source} categoryName={category.name} />
-            <span className="text-muted text-xs">{formattedDate}</span>
+            <time className="mono text-muted text-[10px] tracking-wider">{formattedDate}</time>
           </div>
-          <h3
-            className="font-semibold leading-snug line-clamp-2 text-base mb-2 h-[2.75rem]"
-          >
+          <h3 className="font-semibold leading-snug line-clamp-2 text-[15px] mb-2 h-11">
             {title}
           </h3>
           {tagsElement}
@@ -95,9 +75,9 @@ export function ArticleCard({
     );
   }
 
-  // List表示
+  // List view
   const listThumbnail = thumbnail ? (
-    <div className="relative overflow-hidden rounded-lg w-[120px] h-20 shrink-0">
+    <div className="relative overflow-hidden rounded-sm w-30 h-20 shrink-0 border border-border">
       <Image
         src={thumbnail}
         alt={title}
@@ -108,10 +88,10 @@ export function ArticleCard({
     </div>
   ) : (
     <div
-      className="flex items-center justify-center rounded-lg w-[120px] h-20 shrink-0"
+      className="flex items-center justify-center rounded-sm w-30 h-20 shrink-0 border border-border"
       style={SOURCE_COLORS[source]}
     >
-      <span className="font-bold text-sm uppercase">{source}</span>
+      <span className="mono font-bold text-sm uppercase tracking-widest">{source}</span>
     </div>
   );
 
@@ -120,17 +100,15 @@ export function ArticleCard({
       href={href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className={`group flex bg-card border border-border rounded-xl no-underline text-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-lg p-4 gap-5 ${className}`.trim()}
+      className={`group flex bg-card border border-border rounded-md no-underline text-foreground hover:border-cat-accent transition-colors p-4 gap-5 ${className}`.trim()}
     >
       {listThumbnail}
       <div className="flex-1 min-w-0">
         <div className="flex justify-between mb-1.5">
           <SourceBadge source={source} categoryName={category.name} />
-          <span className="text-muted text-xs">{formattedDate}</span>
+          <time className="mono text-muted text-[10px] tracking-wider">{formattedDate}</time>
         </div>
-        <h3
-          className="font-semibold leading-snug line-clamp-1 text-[15px] mb-1.5"
-        >
+        <h3 className="font-semibold leading-snug line-clamp-1 text-[15px] mb-1.5">
           {title}
         </h3>
         {tagsElement}
