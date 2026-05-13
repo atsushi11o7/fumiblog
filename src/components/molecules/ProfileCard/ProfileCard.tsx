@@ -30,25 +30,28 @@ export function ProfileCard({
   className = '',
 }: ProfileCardProps) {
   return (
-    <div className={`bg-card border border-border rounded-xl p-4 ${className}`.trim()}>
+    <div className={`bg-card border border-border rounded-md p-4 ${className}`.trim()}>
+      <h3 className="mono text-[10px] uppercase tracking-widest text-syntax-comment mb-3">
+        {'// profile'}
+      </h3>
       <div className="flex items-center gap-3 mb-3">
         <Image
           src={avatarSrc}
           alt={name}
           width={48}
           height={48}
-          className="rounded-full object-cover"
+          className="rounded-md object-cover border border-border"
           style={{ width: 48, height: 48 }}
         />
         <div>
           <p className="font-bold text-sm text-foreground leading-tight">{name}</p>
           {handle && (
-            <p className="text-xs text-muted leading-tight">{handle}</p>
+            <p className="mono text-xs text-muted leading-tight mt-0.5">{handle}</p>
           )}
         </div>
       </div>
 
-      <p className="text-sm text-secondary mb-4">{bio}</p>
+      <p className="text-sm text-secondary mb-4 leading-relaxed">{bio}</p>
 
       {links.length > 0 && (
         <div className="flex gap-2">
@@ -60,9 +63,9 @@ export function ProfileCard({
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tt flex-1 flex items-center justify-center gap-1.5 border border-border rounded-lg py-2 text-xs font-medium text-foreground hover:bg-tag-bg no-underline"
+                className="mono flex-1 inline-flex items-center justify-center gap-1.5 border border-border rounded-sm py-1.5 text-[11px] uppercase tracking-widest text-secondary hover:text-cat-accent hover:border-cat-accent transition-colors no-underline"
               >
-                <Icon size={14} />
+                <Icon size={12} />
                 {link.label}
               </a>
             );
