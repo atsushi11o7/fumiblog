@@ -1,31 +1,14 @@
+import Link from 'next/link';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
 import { ScrollReveal } from '@/components/atoms/ScrollReveal/ScrollReveal';
 import type { Article, ViewMode } from '@/types/article';
 
 export interface ArticleSectionProps {
-  /**
-   * セクションタイトル
-   */
   title: string;
-  /**
-   * 記事一覧
-   */
   articles: Article[];
-  /**
-   * 表示モード
-   */
   viewMode?: ViewMode;
-  /**
-   * 表示列数（Grid時のみ有効）
-   */
   columns?: 2 | 3;
-  /**
-   * "もっと見る"リンク
-   */
   viewMoreHref?: string;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
@@ -43,9 +26,12 @@ export function ArticleSection({
     : `grid ${gridCols} gap-5`;
 
   return (
-    <section className={`${className}`.trim()}>
+    <section className={className.trim()}>
       {title && (
-        <h2 className="text-xl font-bold text-foreground mb-6">{title}</h2>
+        <h2 className="mono text-sm uppercase tracking-widest text-syntax-comment mb-6">
+          <span className="text-cat-accent" aria-hidden="true">▶ </span>
+          {title}
+        </h2>
       )}
       <div className={containerClass}>
         {articles.map((article, index) => (
@@ -56,12 +42,13 @@ export function ArticleSection({
       </div>
       {viewMoreHref && (
         <div className="mt-6 text-center">
-          <a
+          <Link
             href={viewMoreHref}
-            className="text-sm text-secondary hover:text-foreground tt no-underline"
+            className="mono inline-flex items-center gap-1 text-xs uppercase tracking-widest text-secondary hover:text-cat-accent transition-colors no-underline"
           >
-            もっと見る →
-          </a>
+            <span aria-hidden="true">▸</span>
+            more
+          </Link>
         </div>
       )}
     </section>
