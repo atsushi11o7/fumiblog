@@ -47,6 +47,7 @@ export default async function Home() {
               />
             )}
             <ExternalFeedSection source="qiita" maxArticles={4} viewMoreHref="/blog" />
+            <ExternalFeedSection source="zenn" maxArticles={4} viewMoreHref="/blog" />
           </main>
 
           <aside className="space-y-6">

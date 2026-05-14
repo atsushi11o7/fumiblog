@@ -22,6 +22,15 @@ interface ZennArticle {
   published_at: string;
 }
 
+interface ZennTopic {
+  name: string;
+  display_name: string;
+}
+
+interface ZennArticleDetail {
+  topics?: ZennTopic[];
+}
+
 /**
  * Qiita API v2 から全記事を取得（ページネーション対応）
  * per_page 最大100、最大10ページ(1000件)まで取得
@@ -82,6 +91,7 @@ export async function fetchZennArticles(
 
   try {
     const articles: Article[] = [];
+    const slugs: string[] = [];
     let nextPage: string | null =
       `https://zenn.dev/api/articles?username=${username}&order=latest&count=100`;
 
@@ -103,12 +113,35 @@ export async function fetchZennArticles(
           tags: [],
           href: `https://zenn.dev${item.path}`,
         });
+        slugs.push(item.slug);
       }
 
       nextPage = data.next_page;
     }
 
-    return articles;
+    // Zenn のリストAPIは topics を含まないため、各記事の詳細から topics を取得して tags に詰める
+    const articlesWithTags = await Promise.all(
+      articles.map(async (article, i) => {
+        const slug = slugs[i];
+        if (!slug) return article;
+        try {
+          const res = await fetch(`https://zenn.dev/api/articles/${slug}`, {
+            next: { revalidate },
+          });
+          if (!res.ok) return article;
+          const data: { article: ZennArticleDetail } = await res.json();
+          const topics = data.article.topics ?? [];
+          return {
+            ...article,
+            tags: topics.map((t) => ({ name: t.display_name, slug: t.name })),
+          };
+        } catch {
+          return article;
+        }
+      }),
+    );
+
+    return articlesWithTags;
   } catch (error) {
     console.error('Failed to fetch Zenn articles:', error);
     return [];
