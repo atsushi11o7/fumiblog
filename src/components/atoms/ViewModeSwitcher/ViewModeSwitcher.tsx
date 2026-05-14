@@ -1,39 +1,15 @@
 import type { ViewMode } from '@/types/article';
 
 export interface ViewModeSwitcherProps {
-  /**
-   * 現在の表示モード
-   */
   viewMode: ViewMode;
-  /**
-   * 表示モード変更時のコールバック
-   */
   onViewModeChange: (mode: ViewMode) => void;
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
 const modes: { value: ViewMode; label: string }[] = [
-  { value: 'grid', label: 'Grid' },
-  { value: 'list', label: 'List' },
+  { value: 'grid', label: 'grid' },
+  { value: 'list', label: 'list' },
 ];
-
-const containerStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  gap: '4px',
-  padding: '4px',
-  borderRadius: '8px',
-};
-
-const buttonBaseStyle: React.CSSProperties = {
-  padding: '6px 12px',
-  borderRadius: '6px',
-  border: 'none',
-  fontSize: '12px',
-  cursor: 'pointer',
-};
 
 export function ViewModeSwitcher({
   viewMode,
@@ -42,27 +18,28 @@ export function ViewModeSwitcher({
 }: ViewModeSwitcherProps) {
   return (
     <div
-      className={`tt bg-tag-bg ${className}`.trim()}
-      style={containerStyle}
+      className={`inline-flex gap-1 p-1 bg-tag-bg border border-border rounded-md ${className}`.trim()}
       role="group"
       aria-label="View mode"
     >
-      {modes.map(({ value, label }) => (
-        <button
-          key={value}
-          type="button"
-          className={`tt ${viewMode === value ? 'bg-card text-foreground' : 'text-muted'}`}
-          style={{
-            ...buttonBaseStyle,
-            fontWeight: viewMode === value ? 600 : 400,
-            backgroundColor: viewMode === value ? undefined : 'transparent',
-          }}
-          onClick={() => onViewModeChange(value)}
-          aria-pressed={viewMode === value}
-        >
-          {label}
-        </button>
-      ))}
+      {modes.map(({ value, label }) => {
+        const isActive = viewMode === value;
+        return (
+          <button
+            key={value}
+            type="button"
+            onClick={() => onViewModeChange(value)}
+            aria-pressed={isActive}
+            className={`mono uppercase tracking-wider text-[10px] px-2.5 py-1 rounded-sm transition-colors ${
+              isActive
+                ? 'bg-cat-accent text-white'
+                : 'text-muted hover:text-foreground'
+            }`}
+          >
+            {label}
+          </button>
+        );
+      })}
     </div>
   );
 }

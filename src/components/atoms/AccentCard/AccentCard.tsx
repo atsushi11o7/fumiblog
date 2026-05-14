@@ -11,12 +11,9 @@ export function AccentCard({
 }) {
   return (
     <div
-      className={`relative rounded-xl border border-border bg-card p-6 overflow-hidden ${className}`.trim()}
+      className={`relative rounded-md border border-border bg-card p-6 overflow-hidden ${className}`.trim()}
     >
-      <div
-        className="absolute left-0 top-0 bottom-0 w-1 rounded-l-xl"
-        style={{ backgroundColor: 'var(--text)' }}
-      />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-cat-accent" />
       {children}
     </div>
   );
