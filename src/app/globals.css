@@ -217,11 +217,55 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
 .prose-content ul,
 .prose-content ol {
   margin-bottom: 1.25rem;
-  padding-left: 1.5rem;
+  padding-left: 0;
+  list-style: none;
 }
 
-.prose-content li {
-  margin-bottom: 0.25rem;
+.prose-content ul li,
+.prose-content ol li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.prose-content ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--cat-accent);
+  font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
+  font-size: 0.85em;
+  line-height: 1.8;
+}
+
+.prose-content ol {
+  counter-reset: prose-list;
+}
+
+.prose-content ol li {
+  counter-increment: prose-list;
+  padding-left: 2rem;
+}
+
+.prose-content ol li::before {
+  content: counter(prose-list) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--cat-accent);
+  font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.875em;
+  line-height: 1.8;
+  min-width: 1.5rem;
+}
+
+/* Nested list: subdued bullet */
+.prose-content ul ul li::before,
+.prose-content ol ul li::before {
+  content: '›';
+  color: var(--text-muted);
 }
 
 .prose-content blockquote {
@@ -272,23 +316,34 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
   border: 1px solid var(--border);
   border-radius: 4px;
   overflow: hidden;
+  font-size: 0.9em;
 }
 
 .prose-content th,
 .prose-content td {
   border-bottom: 1px solid var(--border);
-  padding: 0.5rem 0.75rem;
+  border-right: 1px solid var(--border);
+  padding: 0.55rem 0.85rem;
   text-align: left;
+  vertical-align: top;
+}
+
+.prose-content th:last-child,
+.prose-content td:last-child {
+  border-right: none;
 }
 
 .prose-content th {
-  background: var(--bg-secondary);
+  background: var(--tag-bg);
   font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
-  font-size: 0.8em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text);
+}
+
+.prose-content tbody tr:nth-child(even) td {
+  background: var(--bg-secondary);
 }
 
 .prose-content tr:last-child th,
