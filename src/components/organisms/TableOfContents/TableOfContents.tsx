@@ -46,32 +46,35 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length === 0) return null;
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
-      <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">目次</p>
+    <div className="rounded-md border border-border bg-card p-4">
+      <p className="mono text-[10px] uppercase tracking-widest text-syntax-comment mb-3">
+        {'// table of contents'}
+      </p>
       <nav aria-label="目次">
-        <ul className="space-y-0.5">
-          {headings.map(({ id, text, level }) => (
-            <li key={id}>
-              <a
-                href={`#${id}`}
-                onClick={(e) => handleClick(e, id)}
-                style={{
-                  paddingTop: '0.25rem',
-                  paddingBottom: '0.25rem',
-                  paddingRight: '0.5rem',
-                  paddingLeft: level === 3 ? '2rem' : level === 2 ? '0.75rem' : '0.25rem',
-                  fontSize: level === 3 ? '0.75rem' : '0.875rem',
-                }}
-                className={`block no-underline tt rounded ${
-                  activeId === id
-                    ? 'text-foreground font-medium bg-tag-bg'
-                    : 'text-muted hover:text-foreground hover:bg-tag-bg'
-                }`}
-              >
-                {text}
-              </a>
-            </li>
-          ))}
+        <ul className="flex flex-col gap-0.5">
+          {headings.map(({ id, text, level }) => {
+            const isActive = activeId === id;
+            const indent = level === 3 ? 'pl-6' : level === 2 ? 'pl-3' : 'pl-1';
+            const fontSize = level === 3 ? 'text-[11px]' : 'text-xs';
+            return (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  onClick={(e) => handleClick(e, id)}
+                  className={`mono group flex items-center gap-1.5 py-1 pr-2 ${indent} ${fontSize} rounded-sm no-underline transition-colors ${
+                    isActive
+                      ? 'text-cat-accent font-semibold bg-background'
+                      : 'text-muted hover:text-foreground hover:bg-background'
+                  }`}
+                >
+                  <span aria-hidden="true" className={isActive ? 'text-cat-accent' : 'text-muted/60 group-hover:text-cat-accent'}>
+                    {isActive ? '▶' : '·'}
+                  </span>
+                  <span className="truncate">{text}</span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </div>
