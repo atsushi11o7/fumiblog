@@ -194,7 +194,8 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
   margin-top: 2rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--cat-accent);
+  display: inline-block;
 }
 
 .prose-content h3 {
