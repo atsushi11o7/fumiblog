@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { getBlogBySlug } from '@/libs/microcms';
 import { processArticleContent } from '@/libs/article-processor';
+import { enrichLinkCards } from '@/libs/link-card-enricher';
 import { SourceBadge } from '@/components/atoms/SourceBadge';
 import { TagBadge } from '@/components/atoms/TagBadge';
 import { TableOfContents } from '@/components/organisms/TableOfContents';
@@ -42,7 +43,8 @@ export default async function BlogDetailPage({ params }: Props) {
     notFound();
   }
 
-  const { processedHtml, headings } = processArticleContent(article.content);
+  const { processedHtml: withIds, headings } = processArticleContent(article.content);
+  const processedHtml = await enrichLinkCards(withIds);
 
   return (
     <div className="space-y-8">
