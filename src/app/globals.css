@@ -225,20 +225,23 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
 }
 
 .prose-content blockquote {
-  border-left: 3px solid var(--border);
-  padding-left: 1rem;
+  border-left: 3px solid var(--cat-accent);
+  padding: 0.5rem 1rem;
   margin-bottom: 1.25rem;
   color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-radius: 0 4px 4px 0;
 }
 
 .prose-content pre {
-  background: var(--tag-bg);
-  border-radius: 8px;
-  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
   overflow-x: auto;
   margin-bottom: 1.25rem;
   font-size: 0.875rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .prose-content code {
@@ -247,15 +250,18 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
 }
 
 .prose-content :not(pre) > code {
-  background: var(--tag-bg);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--cat-accent);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
 }
 
 .prose-content img {
   max-width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
   margin: 1.5rem 0;
 }
 
@@ -263,24 +269,37 @@ html[data-boot-phase="3"] [data-reveal="hero"] {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .prose-content th,
 .prose-content td {
-  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding: 0.5rem 0.75rem;
   text-align: left;
 }
 
 .prose-content th {
-  background: var(--tag-bg);
+  background: var(--bg-secondary);
+  font-family: var(--font-geist-mono), 'JetBrains Mono', monospace;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.prose-content tr:last-child th,
+.prose-content tr:last-child td {
+  border-bottom: none;
 }
 
 .prose-content hr {
   border: none;
-  border-top: 1px solid var(--border);
-  margin: 2rem 0;
+  border-top: 1px dashed var(--border);
+  margin: 2.5rem 0;
 }
 
 /* ========================================
