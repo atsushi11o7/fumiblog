@@ -34,9 +34,9 @@ const iconMap = {
 };
 
 const defaultLinks: SocialLink[] = [
-  { platform: 'x', href: 'https://x.com', ariaLabel: 'X' },
-  { platform: 'github', href: 'https://github.com', ariaLabel: 'GitHub' },
-  { platform: 'instagram', href: 'https://instagram.com', ariaLabel: 'Instagram' },
+  { platform: 'github', href: 'https://github.com/atsushi11o7', ariaLabel: 'GitHub' },
+  { platform: 'x', href: 'https://x.com/atsushi11o7', ariaLabel: 'X' },
+  { platform: 'instagram', href: 'https://www.instagram.com/atsushi11o7', ariaLabel: 'Instagram' },
 ];
 
 export function SocialLinks({ links = defaultLinks, className = '' }: SocialLinksProps) {

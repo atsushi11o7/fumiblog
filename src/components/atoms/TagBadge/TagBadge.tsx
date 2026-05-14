@@ -1,35 +1,13 @@
 export interface TagBadgeProps {
-  /**
-   * タグ名
-   */
   label: string;
-  /**
-   * リンク先（指定するとaタグになる）
-   */
   href?: string;
-  /**
-   * サイズ
-   * - small: 記事カード内のタグ (padding: 3px 8px)
-   * - medium: サイドバーのタグ (padding: 4px 8px)
-   */
   size?: 'small' | 'medium';
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
-const sizeStyles: Record<string, React.CSSProperties> = {
-  small: { padding: '3px 8px' },
-  medium: { padding: '4px 8px' },
-};
-
-const baseStyle: React.CSSProperties = {
-  fontSize: '11px',
-  borderRadius: '4px',
-  display: 'inline-block',
-  lineHeight: 1.4,
-  textDecoration: 'none',
+const SIZE_CLASSES: Record<string, string> = {
+  small: 'text-[10px] px-1.5 py-0.5',
+  medium: 'text-[11px] px-2 py-0.5',
 };
 
 export function TagBadge({
@@ -38,19 +16,20 @@ export function TagBadge({
   size = 'small',
   className = '',
 }: TagBadgeProps) {
-  const style = { ...baseStyle, ...sizeStyles[size] };
-  const classes = `tt bg-tag-bg text-tag-text ${className}`.trim();
+  const classes = `mono inline-flex items-center gap-0.5 ${SIZE_CLASSES[size]} text-tag-text border border-border rounded-sm hover:border-cat-accent hover:text-cat-accent transition-colors no-underline leading-tight ${className}`.trim();
 
   if (href) {
     return (
-      <a href={href} className={classes} style={style}>
+      <a href={href} className={classes}>
+        <span className="opacity-60" aria-hidden="true">#</span>
         {label}
       </a>
     );
   }
 
   return (
-    <span className={classes} style={style}>
+    <span className={classes}>
+      <span className="opacity-60" aria-hidden="true">#</span>
       {label}
     </span>
   );

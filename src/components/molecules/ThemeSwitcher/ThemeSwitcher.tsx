@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { IconButton } from '@/components/atoms/IconButton';
 import { Icon } from '@/components/atoms/Icon';
 import { useTheme } from '@/contexts/ThemeContext';

@@ -1,37 +1,21 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-
-/* ── Line model ── */
-type LinePart = { text: string; className?: string; style?: React.CSSProperties };
-type Line = LinePart[];
-
-/* ── Step engine ── */
-interface Step {
-  action: () => void;
-  delay: number;
-}
-
-const SESSION_KEY = 'bootPlayed';
-const BANNER_COLOR = '#CBA6F7';
-
-const getTimestamp = () => {
-  const now = new Date();
-  return `[${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}]`;
-};
-
-/* Progress bar renderer */
-const renderProgressBar = (percent: number) => {
-  const width = 26;
-  const filled = Math.round((percent / 100) * width);
-  const empty = width - filled;
-  return `  [${'█'.repeat(filled)}${'░'.repeat(empty)}] ${String(percent).padStart(3)}%`;
-};
-
-/* Braille spinner */
-const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
-const SPIN_INTERVAL = 60; // ms per frame
-const SPIN_COUNT = 7;     // frames to show before done
+import {
+  type Line,
+  type LinePart,
+  type Step,
+  BANNER_COLOR,
+  BANNER_LINES,
+  SESSION_KEY,
+  SPINNER_FRAMES,
+  SPIN_COUNT,
+  SPIN_INTERVAL,
+  TASK_LABELS,
+  TOTAL_TASKS,
+  getTimestamp,
+  renderProgressBar,
+} from './boot-config';
 
 export function BootScreen() {
   const [lines, setLines] = useState<Line[]>([]);
@@ -62,8 +46,7 @@ export function BootScreen() {
 
   const buildSteps = useCallback((): Step[] => {
     const steps: Step[] = [];
-    const push = (action: () => void, delay: number) =>
-      steps.push({ action, delay });
+    const push = (action: () => void, delay: number) => steps.push({ action, delay });
 
     const typeChars = (text: string, speed: number) => {
       for (let i = 1; i <= text.length; i++) {
@@ -75,51 +58,42 @@ export function BootScreen() {
       }, 0);
     };
 
-    const TOTAL_TASKS = 5;
     let taskIndex = 0;
-
     const task = (label: string) => {
       taskIndex++;
       const currentTask = taskIndex;
       let ts = '';
 
       /* Add line with first spinner frame */
-      push(
-        () => {
-          ts = getTimestamp();
-          addLine([
-            { text: `  ${ts}  `, style: { color: '#6C7086' } },
-            { text: `${SPINNER_FRAMES[0]} `, style: { color: '#89B4FA' } },
-            { text: `${label}...`, style: { color: '#8B949E' } },
-          ]);
-        },
-        130 + Math.floor(Math.random() * 80),
-      );
+      push(() => {
+        ts = getTimestamp();
+        addLine([
+          { text: `  ${ts}  `, style: { color: '#6C7086' } },
+          { text: `${SPINNER_FRAMES[0]} `, style: { color: '#89B4FA' } },
+          { text: `${label}...`, style: { color: '#8B949E' } },
+        ]);
+      }, 130 + Math.floor(Math.random() * 80));
 
       /* Cycle through spinner frames */
       for (let i = 1; i < SPIN_COUNT; i++) {
         const frame = SPINNER_FRAMES[i % SPINNER_FRAMES.length];
-        push(
-          () =>
-            replaceLast([
-              { text: `  ${ts}  `, style: { color: '#6C7086' } },
-              { text: `${frame} `, style: { color: '#89B4FA' } },
-              { text: `${label}...`, style: { color: '#8B949E' } },
-            ]),
-          SPIN_INTERVAL,
-        );
+        push(() =>
+          replaceLast([
+            { text: `  ${ts}  `, style: { color: '#6C7086' } },
+            { text: `${frame} `, style: { color: '#89B4FA' } },
+            { text: `${label}...`, style: { color: '#8B949E' } },
+          ]),
+        SPIN_INTERVAL);
       }
 
       /* Finalize: show done */
-      push(
-        () =>
-          replaceLast([
-            { text: `  ${ts}  `, style: { color: '#6C7086' } },
-            { text: `\u25B8 ${label}...  ` },
-            { text: 'done', style: { color: '#A6E3A1' } },
-          ]),
-        SPIN_INTERVAL,
-      );
+      push(() =>
+        replaceLast([
+          { text: `  ${ts}  `, style: { color: '#6C7086' } },
+          { text: `▸ ${label}...  ` },
+          { text: 'done', style: { color: '#A6E3A1' } },
+        ]),
+      SPIN_INTERVAL);
 
       /* Update progress bar in-place */
       push(() => {
@@ -140,27 +114,13 @@ export function BootScreen() {
     push(() => {}, 400);
     push(() => addLine([{ text: '' }]), 0);
 
-    /* ASCII banner */
-    const bannerLines = [
-      '  \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2563\u2588\u2588\u2557   \u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2588\u2557\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2563 \u2588\u2588\u2557      \u2588\u2588\u2588\u2588\u2588\u2588\u2563  \u2588\u2588\u2588\u2588\u2588\u2588\u2563  ',
-      '  \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2563 \u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2563\u2588\u2588\u2551     \u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2563\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d  ',
-      '  \u2588\u2588\u2588\u2588\u2588\u2563  \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2554\u2588\u2588\u2588\u2588\u2554\u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551     \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2588\u2563 ',
-      '  \u2588\u2588\u2554\u2550\u2550\u255d  \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551\u255a\u2588\u2588\u2554\u255d\u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2563\u2588\u2588\u2551     \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2551   \u2588\u2588\u2551 ',
-      '  \u2588\u2588\u2551     \u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551 \u255a\u2550\u255d \u2588\u2588\u2551\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2563\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u255a\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d ',
-      '  \u255a\u2550\u255d      \u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u255d     \u255a\u2550\u255d\u255a\u2550\u255d\u255a\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u2550\u255d \u255a\u2550\u2550\u2550\u2550\u2550\u255d  \u255a\u2550\u2550\u2550\u2550\u2550\u255d  ',
-    ];
-    bannerLines.forEach((lineText) => {
-      push(
-        () => addLine([{ text: lineText, style: { color: BANNER_COLOR, fontWeight: 'bold' } }]),
-        60,
-      );
+    BANNER_LINES.forEach((lineText) => {
+      push(() => addLine([{ text: lineText, style: { color: BANNER_COLOR, fontWeight: 'bold' } }]), 60);
     });
 
-    /* Separator */
-    push(() => addLine([{ text: '  ' + '\u2500'.repeat(68), style: { color: '#313244' } }]), 100);
-
+    push(() => addLine([{ text: '  ' + '─'.repeat(68), style: { color: '#313244' } }]), 100);
     push(() => addLine([{ text: '' }]), 200);
-    push(() => addLine([{ text: '  \uD83D\uDE80 v3.0.0', style: { color: '#89B4FA' } }]), 300);
+    push(() => addLine([{ text: '  🚀 v3.0.0', style: { color: '#89B4FA' } }]), 300);
     push(() => addLine([{ text: '' }]), 200);
 
     /* Progress bar — initial 0% */
@@ -173,20 +133,14 @@ export function BootScreen() {
     push(() => addLine([{ text: '' }]), 200);
 
     /* Tasks */
-    task('Loading configuration');
-    task('Connecting to CMS');
-    task('Fetching articles');
-    task('Building pages');
-    task('Starting server');
+    TASK_LABELS.forEach(task);
 
     push(() => addLine([{ text: '' }]), 300);
-    push(
-      () =>
-        addLine([
-          { text: '  \u2713 Ready on https://fumiblog.com', style: { color: '#A6E3A1', fontWeight: 'bold' } },
-        ]),
-      400,
-    );
+    push(() =>
+      addLine([
+        { text: '  ✓ Ready on https://fumiblog.com', style: { color: '#A6E3A1', fontWeight: 'bold' } },
+      ]),
+    400);
     push(() => addLine([{ text: '' }]), 300);
 
     return steps;
@@ -254,7 +208,7 @@ export function BootScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-background p-4 md:p-8 transition-opacity duration-[1400ms] ${
+      className={`fixed inset-0 z-9999 flex items-center justify-center bg-background p-4 md:p-8 transition-opacity duration-1400 ${
         phase === 'fading' ? 'opacity-0' : 'opacity-100'
       }`}
       aria-live="polite"
@@ -301,7 +255,7 @@ export function BootScreen() {
           {lines.map((parts, i) => (
             <div key={i}>
               {parts.length === 0 || (parts.length === 1 && parts[0].text === '') ? (
-                <span>{'\u00A0'}</span>
+                <span>{' '}</span>
               ) : (
                 parts.map((part, j) => (
                   <span key={j} className={part.className ?? ''} style={part.style}>

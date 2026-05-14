@@ -1,113 +1,139 @@
 'use client';
 
-import { Terminal, MapPin, Code2, type LucideIcon } from 'lucide-react';
 import { useTypingLoop } from '@/hooks/useTypingLoop';
 import { HeroHeading } from '@/components/molecules/HeroHeading';
+import { CodeEditorTabBar } from '@/components/atoms/CodeEditorTabBar';
+import { CodeEditorBreadcrumb } from '@/components/atoms/CodeEditorBreadcrumb';
+import { CodeEditorStatusBar } from '@/components/atoms/CodeEditorStatusBar';
+import { CodeEditorMinimap } from '@/components/atoms/CodeEditorMinimap';
 
-const HEADING = 'A space to share daily learnings';
+const HEADING = 'A space to share daily learnings';
 const ACCENT = 'learnings';
 
-const META_BADGES: { icon: LucideIcon; text: string }[] = [
-  { icon: Code2, text: 'Python' },
-  { icon: Code2, text: 'PyTorch' },
-  { icon: MapPin, text: 'Yokohama, JP' },
+const TABS = [
+  { name: 'hero.tsx', active: true },
+  { name: 'about.md' },
+  { name: 'README.md' },
+];
+
+const BREADCRUMB = ['src', 'components', 'organisms', 'HeroSection', 'hero.tsx'];
+
+// Decorative gutter marks (visual diff indicators)
+const GUTTER_MARKS = [
+  '', '+', '+', '+', '+', '', '~', '~', '', '~', '', '+', '+', '+', '+', '', '',
 ];
 
 export interface HeroSectionProps {
-  label?: string;
+  author?: string;
+  role?: string;
+  stack?: string;
+  loc?: string;
   subtitle?: string;
   className?: string;
 }
 
 export function HeroSection({
-  label = 'ENGINEER — AI / DEV',
+  author = 'Atsushi (@atsushi11o7)',
+  role = 'ENGINEER — AI / DEV',
+  stack = 'Python · PyTorch',
+  loc = 'Yokohama, JP',
   subtitle = '技術と日常の学びを記録しています。',
   className = '',
 }: HeroSectionProps) {
   const { displayLen } = useTypingLoop(HEADING);
+  const buildSha = process.env.NEXT_PUBLIC_GIT_SHA ?? 'dev';
 
   return (
     <section
-      className={`relative overflow-hidden rounded-2xl py-16 px-8 md:py-24 md:px-12 ${className}`.trim()}
+      className={`relative overflow-hidden rounded-2xl border border-border bg-background ${className}`.trim()}
+      aria-label="Hero"
     >
-      {/* Background: dot grid */}
-      <div
-        className="hero-dot-grid absolute inset-0 opacity-50 pointer-events-none"
-        aria-hidden="true"
-      />
+      <CodeEditorTabBar tabs={TABS} />
+      <CodeEditorBreadcrumb segments={BREADCRUMB} />
 
-      {/* Corner brackets — terminal frame */}
-      <span className="absolute top-3 left-3 mono text-sm text-muted opacity-50 pointer-events-none select-none" aria-hidden="true">┌─</span>
-      <span className="absolute top-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none" aria-hidden="true">─┐</span>
-      <span className="absolute bottom-3 left-3 mono text-sm text-muted opacity-50 pointer-events-none select-none" aria-hidden="true">└─</span>
-      <span className="absolute bottom-3 right-3 mono text-sm text-muted opacity-50 pointer-events-none select-none" aria-hidden="true">─┘</span>
-
-      {/* Vertical accent bar */}
-      <div
-        className="absolute left-0 top-12 bottom-12 w-[3px] rounded-full hero-accent-line"
-        style={{ backgroundColor: 'var(--cat-accent)' }}
-        aria-hidden="true"
-      />
-
-      {/* Right-side hex index column (md+) */}
-      <div
-        className="absolute top-1/2 right-6 -translate-y-1/2 hidden md:flex flex-col gap-1 mono text-[10px] text-muted opacity-25 pointer-events-none select-none"
-        aria-hidden="true"
-      >
-        {Array.from({ length: 12 }, (_, i) => (
-          <span key={i}>0x{i.toString(16).padStart(2, '0').toUpperCase()}</span>
-        ))}
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-3xl">
-        {/* Status line */}
-        <div className="flex items-center gap-2 mb-8">
-          <Terminal size={14} className="text-cat-accent" />
-          <p className="mono text-xs tracking-widest text-muted uppercase">
-            [ {label} ]
-          </p>
-        </div>
-
-        {/* Heading */}
-        <h1
-          className="mono text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6"
-          aria-label={HEADING}
+      <div className="grid grid-cols-[24px_56px_1fr] md:grid-cols-[24px_56px_1fr_80px]">
+        {/* Gutter (diff marks) */}
+        <div
+          className="bg-bg-secondary border-r border-border pt-6 text-center mono text-[11px] text-muted"
+          aria-hidden="true"
         >
-          <HeroHeading text={HEADING} accent={ACCENT} displayLen={displayLen} />
-        </h1>
-
-        {/* Subtitle */}
-        <p className="text-base md:text-lg text-secondary mb-10 max-w-xl">
-          {subtitle}
-        </p>
-
-        {/* Meta badges */}
-        <div className="flex flex-wrap items-center gap-2">
-          {META_BADGES.map(({ icon: Icon, text }) => (
-            <span
-              key={text}
-              className="mono inline-flex items-center gap-1.5 text-xs text-muted border border-border rounded-md px-2.5 py-1 bg-card"
-            >
-              <Icon size={12} />
-              {text}
-            </span>
-          ))}
+          {GUTTER_MARKS.map((mark, i) => {
+            const color =
+              mark === '+'
+                ? 'text-gutter-added'
+                : mark === '~'
+                ? 'text-cat-accent'
+                : '';
+            return (
+              <span key={i} className={`block leading-relaxed ${color}`.trim()}>
+                {mark || ' '}
+              </span>
+            );
+          })}
         </div>
 
-        {/* Compiled-at-runtime indicator */}
-        <div className="mt-12 flex items-center gap-2 mono text-[11px] text-muted opacity-60">
-          <span className="text-cat-accent" aria-hidden="true">▶</span>
-          <span className="uppercase tracking-widest">compiled at runtime</span>
+        {/* Line numbers */}
+        <div className="bg-bg-secondary border-r border-border py-6 px-3 text-right mono text-[13px] text-muted select-none">
+          {Array.from({ length: 17 }, (_, i) => {
+            const n = i + 1;
+            const isHighlighted = n === 7 || n === 8;
+            return (
+              <span
+                key={n}
+                className={`block leading-relaxed ${isHighlighted ? 'text-cat-accent font-semibold' : ''}`.trim()}
+              >
+                {n}
+              </span>
+            );
+          })}
         </div>
+
+        {/* Code */}
+        <div className="py-6 px-7 mono text-sm leading-relaxed bg-background">
+          <div className="text-syntax-comment">{`// ─ hero · v0.1 ────────────────`}</div>
+          <div className="text-syntax-comment">{`// @author  ${author}`}</div>
+          <div className="text-syntax-comment">{`// @role    ${role}`}</div>
+          <div className="text-syntax-comment">{`// @stack   ${stack}`}</div>
+          <div className="text-syntax-comment">{`// @loc     ${loc}`}</div>
+          <div>&nbsp;</div>
+          <h1
+            className="text-3xl md:text-4xl font-bold leading-[1.15] tracking-tight my-4"
+            aria-label={HEADING}
+          >
+            <HeroHeading text={HEADING} accent={ACCENT} displayLen={displayLen} />
+          </h1>
+          <div>&nbsp;</div>
+          <div className="text-syntax-comment">{`/* ${subtitle} */`}</div>
+          <div>&nbsp;</div>
+          <div>
+            <span className="text-syntax-keyword font-semibold">export const </span>
+            <span className="text-syntax-type">meta</span>
+            <span> = {'{'}</span>
+          </div>
+          <div>
+            {'  '}
+            <span className="text-syntax-type">build</span>
+            <span>: </span>
+            <span className="text-syntax-string">{`"${buildSha}"`}</span>
+            <span>,</span>
+          </div>
+          <div>
+            {'  '}
+            <span className="text-syntax-type">since</span>
+            <span>: </span>
+            <span className="text-syntax-string">{`"2026"`}</span>
+            <span>,</span>
+          </div>
+          <div>{'};'}</div>
+          <div>&nbsp;</div>
+          <div className="text-syntax-comment">{`// ─────────────────────────────`}</div>
+        </div>
+
+        {/* Minimap (md+) */}
+        <CodeEditorMinimap className="hidden md:flex" />
       </div>
 
-      {/* Bottom horizontal line */}
-      <div
-        className="absolute bottom-0 left-8 right-8 h-px hero-accent-line"
-        style={{ backgroundColor: 'var(--border)' }}
-        aria-hidden="true"
-      />
+      <CodeEditorStatusBar branch="develop" warnings={0} errors={0} line={7} column={12} />
     </section>
   );
 }

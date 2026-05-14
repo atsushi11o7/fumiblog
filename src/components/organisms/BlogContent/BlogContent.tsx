@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
 import { ScrollReveal } from '@/components/atoms/ScrollReveal/ScrollReveal';
 import { CategoryFilter } from '@/components/molecules/CategoryFilter';
@@ -97,19 +97,20 @@ export function BlogContent({ articles, initialQuery = '', initialPage = 1 }: Bl
     <div className="space-y-8">
       {/* ヘッダー */}
       <AccentCard>
-        <div className="pl-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <BookOpen size={22} style={{ color: 'var(--text)' }} />
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">
-                {initialQuery ? `「${initialQuery}」の検索結果` : 'Blog'}
-              </h1>
-              <p className="text-sm text-muted mt-0.5">
-                {initialQuery
-                  ? `${searchedArticles.length} 件`
-                  : `全 ${filteredArticles.length} 件`}
-              </p>
-            </div>
+        <div className="pl-4 flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <p className="mono text-[10px] uppercase tracking-widest text-syntax-comment mb-1">
+              {initialQuery ? '// search results' : '// blog'}
+            </p>
+            <h1 className="text-2xl font-bold text-foreground">
+              {initialQuery ? `「${initialQuery}」` : 'Blog'}
+            </h1>
+            <p className="mono text-xs text-muted mt-1">
+              <span className="text-cat-accent" aria-hidden="true">▶ </span>
+              {initialQuery
+                ? `${searchedArticles.length} matches`
+                : `${filteredArticles.length} entries`}
+            </p>
           </div>
           <ViewModeSwitcher viewMode={viewMode} onViewModeChange={setViewMode} />
         </div>
@@ -126,12 +127,8 @@ export function BlogContent({ articles, initialQuery = '', initialPage = 1 }: Bl
 
       {/* 記事一覧 */}
       {filteredArticles.length === 0 ? (
-        <div className="text-center py-12 text-secondary">
-          <p>
-            {initialQuery
-              ? '該当する記事が見つかりませんでした。'
-              : '記事が見つかりませんでした。'}
-          </p>
+        <div className="text-center py-12 mono text-sm text-syntax-comment">
+          <p>{'// no articles found'}</p>
         </div>
       ) : (
         <>
@@ -155,28 +152,28 @@ export function BlogContent({ articles, initialQuery = '', initialPage = 1 }: Bl
               <button
                 onClick={() => goToPage(safePage - 1)}
                 disabled={safePage <= 1}
-                className="flex items-center justify-center w-9 h-9 rounded-lg border border-border text-muted hover:bg-tag-bg hover:text-foreground tt disabled:opacity-30 disabled:cursor-not-allowed"
+                className="mono flex items-center justify-center w-9 h-9 rounded-md border border-border text-muted hover:border-cat-accent hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 aria-label="前のページ"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={14} />
               </button>
 
               {getPageNumbers(safePage, totalPages).map((p, i) =>
                 p === '...' ? (
                   <span
                     key={`ellipsis-${i}`}
-                    className="w-9 h-9 flex items-center justify-center text-muted text-sm"
+                    className="w-9 h-9 flex items-center justify-center text-muted mono text-sm"
                   >
-                    …
+                    ···
                   </span>
                 ) : (
                   <button
                     key={p}
                     onClick={() => goToPage(p)}
-                    className={`w-9 h-9 rounded-lg text-sm font-medium tt ${
+                    className={`mono w-9 h-9 rounded-md text-sm transition-colors ${
                       p === safePage
-                        ? 'bg-[var(--cat-accent)] text-white border border-transparent'
-                        : 'border border-border text-foreground hover:bg-tag-bg'
+                        ? 'bg-cat-accent text-white border border-cat-accent font-semibold'
+                        : 'border border-border text-foreground hover:border-cat-accent'
                     }`}
                     aria-current={p === safePage ? 'page' : undefined}
                   >
@@ -188,10 +185,10 @@ export function BlogContent({ articles, initialQuery = '', initialPage = 1 }: Bl
               <button
                 onClick={() => goToPage(safePage + 1)}
                 disabled={safePage >= totalPages}
-                className="flex items-center justify-center w-9 h-9 rounded-lg border border-border text-muted hover:bg-tag-bg hover:text-foreground tt disabled:opacity-30 disabled:cursor-not-allowed"
+                className="mono flex items-center justify-center w-9 h-9 rounded-md border border-border text-muted hover:border-cat-accent hover:text-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 aria-label="次のページ"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={14} />
               </button>
             </div>
           )}

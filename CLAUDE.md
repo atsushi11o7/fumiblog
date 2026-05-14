@@ -63,7 +63,7 @@ Git Flow 風: `develop` が作業統合ブランチ、`main` はリリース用�
 
 ### PR / Issue
 
-`.github/PULL_REQUEST_TEMPLATE.md` と `.github/ISSUE_TEMPLATE.md` は日本語。PR / Issue の **本文は日本語**で書く。PR タイトルは英語（コミット形式と統一）。PR の base はデフォルト `develop`。
+`.github/PULL_REQUEST_TEMPLATE.md` と `.github/ISSUE_TEMPLATE.md` は日本語。PR / Issue の **本文は日本語**で書く。タイトルは PR が**英語**（コミット形式と統一）、Issue は**日本語**。PR の base はデフォルト `develop`。
 
 ### 環境変数
 

@@ -2,21 +2,17 @@ import { TagBadge } from '@/components/atoms/TagBadge';
 import type { Tag } from '@/types/article';
 
 export interface SidebarTagListProps {
-  /**
-   * microCMS から取得したタグ一覧
-   */
   tags: Tag[];
-  /**
-   * Additional CSS classes
-   */
   className?: string;
 }
 
 export function SidebarTagList({ tags, className = '' }: SidebarTagListProps) {
   return (
-    <div className={`bg-card border border-border rounded-xl p-4 ${className}`.trim()}>
-      <h3 className="text-xs tracking-widest text-secondary mb-3">TAGS</h3>
-      <div className="flex flex-wrap" style={{ gap: '4px' }}>
+    <div className={`bg-card border border-border rounded-md p-4 ${className}`.trim()}>
+      <h3 className="mono text-[10px] uppercase tracking-widest text-syntax-comment mb-3">
+        {'// tags'}
+      </h3>
+      <div className="flex flex-wrap gap-1.5">
         {tags.map((tag) => (
           <TagBadge
             key={tag.slug}
