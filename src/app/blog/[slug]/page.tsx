@@ -45,7 +45,21 @@ export default async function BlogDetailPage({ params }: Props) {
   const { processedHtml, headings } = processArticleContent(article.content);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* アイキャッチ画像（フル幅・記事冒頭） */}
+      {article.eyecatch && (
+        <div className="relative w-full aspect-2/1 md:aspect-5/2 overflow-hidden rounded-md border border-border">
+          <Image
+            src={article.eyecatch.url}
+            alt={article.title}
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            priority
+          />
+        </div>
+      )}
+
       {/* 戻るリンク */}
       <Link
         href="/blog"
@@ -88,27 +102,7 @@ export default async function BlogDetailPage({ params }: Props) {
 
       {/* 本文 + サイドバー（2カラム） */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_260px] gap-10">
-        <article>
-          {/* アイキャッチ画像 */}
-          {article.eyecatch && (
-            <div className="relative w-full aspect-video overflow-hidden rounded-md border border-border mb-8">
-              <Image
-                src={article.eyecatch.url}
-                alt={article.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 764px"
-                priority
-              />
-            </div>
-          )}
-
-          {/* 本文 */}
-          <div
-            className="prose-content"
-            dangerouslySetInnerHTML={{ __html: processedHtml }}
-          />
-        </article>
+        <article className="prose-content" dangerouslySetInnerHTML={{ __html: processedHtml }} />
 
         {/* サイドバー */}
         <aside className="hidden lg:block">
